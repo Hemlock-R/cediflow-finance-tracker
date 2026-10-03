@@ -121,8 +121,7 @@ const defaultVocabulary = {
 
 const defaultPreferences = {
   theme: "dark",
-  radius: "12px",
-  scalingFactor: "0.15",
+
   currency: "GHS",
 };
 
@@ -222,7 +221,7 @@ function initApp() {
   inputs.forEach((i) => i.addEventListener("input", calculateAndCompare));
 }
 
-function switchTab(targetViewId, element) {
+window.switchTab = function switchTab(targetViewId, element) {
   const panels = document.querySelectorAll(".view-panel");
   const tabs = document.querySelectorAll(".nav-tab");
 
@@ -322,25 +321,17 @@ function deleteKeyword(category, index) {
 
 function syncPreferencesUIElements() {
   const themeSel = document.getElementById("siteThemeSelector");
-  const radiusSel = document.getElementById("siteRadiusSelector");
-  const scalingSel = document.getElementById("scalingFactorSelector");
   const currencySel = document.getElementById("siteCurrencySelector");
 
   if (themeSel) themeSel.value = systemPrefs.theme;
-  if (radiusSel) radiusSel.value = systemPrefs.radius;
-  if (scalingSel) scalingSel.value = systemPrefs.scalingFactor;
   if (currencySel) currencySel.value = systemPrefs.currency || "GHS";
 }
 
 function commitAndSecurePreferences() {
   const themeSel = document.getElementById("siteThemeSelector");
-  const radiusSel = document.getElementById("siteRadiusSelector");
-  const scalingSel = document.getElementById("scalingFactorSelector");
   const currencySel = document.getElementById("siteCurrencySelector");
 
   if (themeSel) systemPrefs.theme = themeSel.value;
-  if (radiusSel) systemPrefs.radius = radiusSel.value;
-  if (scalingSel) systemPrefs.scalingFactor = scalingSel.value;
   if (currencySel) systemPrefs.currency = currencySel.value;
 
   localStorage.setItem("sys_preferences", JSON.stringify(systemPrefs));
@@ -352,11 +343,7 @@ function applyPreferencesEngineState() {
   const smartLabelEl = document.getElementById("smartLabel");
   if (smartLabelEl) smartLabelEl.textContent = "Smart Classifier Input";
 
-  rootContainer.style.setProperty("--radius-main", systemPrefs.radius);
-  rootContainer.style.setProperty(
-    "--radius-inner",
-    systemPrefs.radius === "0px" ? "0px" : "6px",
-  );
+  
 
   if (systemPrefs.theme === "light") {
     rootContainer.style.setProperty("--bg-color", "#f6f8fa");
@@ -516,7 +503,6 @@ function calculateAndCompare() {
 
   const totalBalanceSheet = assets + liabilities;
   const totalVerticalSum = income + expenses + totalBalanceSheet;
-  const padFactor = parseFloat(systemPrefs.scalingFactor) || 0.15;
 
   const dashboardEl = document.getElementById("dashboardView");
   if (dashboardEl) {

@@ -142,6 +142,8 @@ let systemGoals = safeGetLocalStorage("sys_goals", []);
 let calcClearOnNextInput = false;
 let formatter;
 
+const padFactor = 0.01;
+
 function updateFormatter() {
   const currencyConfig = {
     GHS: { locale: "en-GH", code: "GHS", symbol: "GH₵" },
@@ -206,6 +208,121 @@ function getUIElements() {
 
 let ui = {};
 
+window.showSiteMessage = function showSiteMessage(message, type = "success") {
+  const existingMessage = document.querySelector(".site-message");
+
+  if (existingMessage) {
+    existingMessage.remove();
+  }
+
+  const messageBox = document.createElement("div");
+  messageBox.className = `site-message ${type}`;
+
+  const config = {
+    success: {
+      icon: "✓",
+      title: "Success",
+    },
+    error: {
+      icon: "!",
+      title: "Something went wrong",
+    },
+    warning: {
+      icon: "⚠",
+      title: "Notice",
+    },
+  };
+
+  const selected = config[type] || config.success;
+
+  messageBox.innerHTML = `
+    <div class="site-message-icon">${selected.icon}</div>
+    <div class="site-message-content">
+      <strong>${selected.title}</strong>
+      <span>${message}</span>
+    </div>
+  `;
+
+  document.body.appendChild(messageBox);
+
+  requestAnimationFrame(() => {
+    messageBox.classList.add("show");
+  });
+
+  setTimeout(() => {
+    messageBox.classList.remove("show");
+
+    setTimeout(() => {
+      messageBox.remove();
+    }, 250);
+  }, 3500);
+};
+
+window.showConfirmMessage = function showConfirmMessage(
+  title,
+  message,
+  confirmText = "Yes, Continue",
+) {
+  const existingConfirm = document.querySelector(".site-confirm");
+
+  if (existingConfirm) {
+    existingConfirm.remove();
+  }
+
+  const confirmBox = document.createElement("div");
+  confirmBox.className = "site-confirm";
+
+  confirmBox.innerHTML = `
+    <div class="site-confirm-content">
+      <div class="site-confirm-icon">!</div>
+
+      <div class="site-confirm-text">
+        <strong>${title}</strong>
+        <span>${message}</span>
+      </div>
+    </div>
+
+    <div class="site-confirm-actions">
+      <button type="button" class="site-confirm-cancel">
+        Cancel
+      </button>
+
+      <button type="button" class="site-confirm-confirm">
+        ${confirmText}
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(confirmBox);
+
+  requestAnimationFrame(() => {
+    confirmBox.classList.add("show");
+  });
+
+  return new Promise((resolve) => {
+    const cancelButton = confirmBox.querySelector(".site-confirm-cancel");
+
+    const confirmButton = confirmBox.querySelector(".site-confirm-confirm");
+
+    const close = (result) => {
+      confirmBox.classList.remove("show");
+
+      setTimeout(() => {
+        confirmBox.remove();
+        resolve(result);
+      }, 250);
+    };
+
+    cancelButton.addEventListener("click", () => {
+      close(false);
+    });
+
+    confirmButton.addEventListener("click", () => {
+      close(true);
+    });
+  });
+};
+
 function initApp() {
   ui = getUIElements();
   if (ui.logDate && !ui.logDate.value) {
@@ -219,6 +336,14 @@ function initApp() {
 
   const inputs = document.querySelectorAll('input[type="number"]');
   inputs.forEach((i) => i.addEventListener("input", calculateAndCompare));
+
+  setTimeout(() => {
+    ui = getUIElements();
+
+    calculateAndCompare();
+    renderHistoryTable();
+    calculateSuccessMetrics();
+  }, 0);
 }
 
 window.switchTab = function switchTab(targetViewId, element) {
@@ -294,10 +419,15 @@ function addNewKeyword() {
   const category = categoryEl.value;
   const targetWord = textInput.value.toLowerCase().trim();
 
-  if (!targetWord) return alert("Please type a valid word.");
-  if (!systemVocab[category]) systemVocab[category] = [];
-  if (systemVocab[category].includes(targetWord))
-    return alert("Keyword allocation exists.");
+  if (!targetWord) {
+    showSiteMessage("Please type a valid word.", "error");
+    return;
+  }
+
+  if (systemVocab[category].includes(targetWord)) {
+    showSiteMessage("Keyword already exists in this category.", "warning");
+    return;
+  }
 
   systemVocab[category].push(targetWord);
   localStorage.setItem("sys_vocabulary", JSON.stringify(systemVocab));
@@ -306,17 +436,22 @@ function addNewKeyword() {
   renderVocabularyTags();
 }
 
-function deleteKeyword(category, index) {
+async function deleteKeyword(category, index) {
   const word = systemVocab[category][index];
-  if (
-    confirm(
-      `Are you sure you want to delete "${word}" from the vocabulary list?`,
-    )
-  ) {
-    systemVocab[category].splice(index, 1);
-    localStorage.setItem("sys_vocabulary", JSON.stringify(systemVocab));
-    renderVocabularyTags();
-  }
+
+  const confirmed = await showConfirmMessage(
+    "Confirm keyword deletion",
+    `Are you sure you want to delete "${word}" from the vocabulary list?`,
+    "Yes, Delete",
+  );
+
+  if (!confirmed) return;
+
+  systemVocab[category].splice(index, 1);
+  localStorage.setItem("sys_vocabulary", JSON.stringify(systemVocab));
+  renderVocabularyTags();
+
+  showSiteMessage("Keyword deleted successfully.", "success");
 }
 
 function syncPreferencesUIElements() {
@@ -336,7 +471,7 @@ function commitAndSecurePreferences() {
 
   localStorage.setItem("sys_preferences", JSON.stringify(systemPrefs));
   applyPreferencesEngineState();
-  alert("System security profile settings applied successfully.");
+  showSiteMessage("Settings applied successfully.", "success");
 }
 
 function applyPreferencesEngineState() {
@@ -480,7 +615,7 @@ function classifyItem() {
   amountEl.value = "";
 }
 
-function calculateAndCompare() {
+window.calculateAndCompare = function calculateAndCompare() {
   if (!ui.assets) ui = getUIElements();
   if (!ui.assets) return;
 
@@ -610,30 +745,37 @@ function calculateAndCompare() {
         "Enter numbers to isolate exactly which quadrant holds leverage logic runtime properties.";
     }
   }
-}
+};
 
 function generateWealthAdvice(assets, liabilities, income, expenses) {
-  if (assets === 0 && liabilities === 0 && income === 0 && expenses === 0)
-    return [];
+  if (assets === 0 && liabilities === 0 && income === 0 && expenses === 0) {
+    return [
+      "Start by entering your income, expenses, assets, and debts. Once you do, I'll help you understand what to focus on next.",
+    ];
+  }
+
   let logs = [];
+
   if (assets < liabilities) {
     logs.push(
-      "Core Balance Sheet Strategy: LIABILITIES BURNDOWN - Obligations dominate asset profiles. Attack basic high-interest drag variables first.",
+      "You currently owe more than you own. Focus on reducing your debt, especially any debt that is costing you a lot in interest.",
     );
   } else {
     logs.push(
-      "Core Balance Sheet Strategy: ASSET VELOCITY EXPANSION - Solvency metrics are functional. Shift incoming resources into expanding capital asset base layout parameters.",
+      "You're in a good starting position. What you own is higher than what you owe, so keep building your assets while managing your debts.",
     );
   }
+
   if (income < expenses) {
     logs.push(
-      "Core Capital Flow Focus: INCOME VELOCITY ENHANCEMENT - Negative structural cash burn tracked. Scale active income streams or optimize baseline commitments.",
+      "You're spending more than you're earning. Look at your expenses and see what you can reduce, while also looking for ways to increase your income.",
     );
   } else {
     logs.push(
-      "Core Capital Flow Focus: ASSET CONVERSION PIPELINE - Surplus detected. Automate regular balance sweep out of active currency loops into strategic long positions.",
+      "You're spending less than you earn. That's a good sign. Try to save some of the money left over and use it to work toward your financial goals.",
     );
   }
+
   return logs;
 }
 
@@ -643,10 +785,8 @@ function getHistory() {
 
 function saveCurrentDay() {
   if (!ui.logDate) ui = getUIElements();
-  const date = ui.logDate
-    ? ui.logDate.value
-    : new Date().toISOString().split("T")[0];
-  if (!date) return alert("Select standard valid log date parameter.");
+  const now = new Date();
+  const date = now.toISOString().split("T")[0];
 
   let history = getHistory();
   const existIndex = history.findIndex((i) => i.date === date);
@@ -693,7 +833,17 @@ function saveCurrentDay() {
   history.sort((a, b) => new Date(b.date) - new Date(a.date));
   localStorage.setItem("wealthDashboardHistory", JSON.stringify(history));
   renderHistoryTable();
-  alert("Day saved successfully!");
+
+  ui.assets.value = "";
+  ui.liabilities.value = "";
+  ui.income.value = "";
+  ui.expenses.value = "";
+  ui.pocketMoney.value = "";
+  ui.savedMoney.value = "";
+
+  calculateAndCompare();
+
+  showSiteMessage("Day saved successfully!", "success");
 }
 
 function editEntry(id) {
@@ -789,7 +939,8 @@ function saveEntryEdit(id) {
 
   const dateInput = row.querySelector('input[data-field="date"]');
   if (!dateInput || !dateInput.value) {
-    return alert("Please select a valid date.");
+    showSiteMessage("Please select a valid date.", "error");
+    return;
   }
 
   const calculatedAssets = readInput("calculatedAssets");
@@ -803,7 +954,11 @@ function saveEntryEdit(id) {
     isNaN(income) ||
     isNaN(expenses)
   ) {
-    return alert("Please enter valid numeric values for all fields.");
+    showSiteMessage(
+      "Please enter valid numeric values for all fields.",
+      "error",
+    );
+    return;
   }
 
   const updatedEntry = {
@@ -826,7 +981,7 @@ function saveEntryEdit(id) {
   renderHistoryTable();
   calculateAndCompare();
   calculateSuccessMetrics();
-  alert("History entry updated successfully!");
+  showSiteMessage("History entry updated successfully!", "success");
 }
 
 function cancelEntryEdit(id) {
@@ -848,7 +1003,7 @@ function deleteEntry(id) {
   }
 }
 
-function renderHistoryTable() {
+window.renderHistoryTable = function renderHistoryTable() {
   if (!ui.historyBody) ui = getUIElements();
   if (!ui.historyBody) return;
 
@@ -930,7 +1085,7 @@ function renderHistoryTable() {
 
     ui.historyBody.appendChild(r);
   });
-}
+};
 
 function saveSystemGoal() {
   const typeEl = document.getElementById("goalType");
@@ -940,8 +1095,13 @@ function saveSystemGoal() {
   const type = typeEl.value;
   const amount = parseFloat(amountEl.value);
 
-  if (isNaN(amount) || amount <= 0)
-    return alert("Please specify a valid numeric objective threshold.");
+  if (isNaN(amount) || amount <= 0) {
+    showSiteMessage(
+      "Please specify a valid numeric objective threshold.",
+      "error",
+    );
+    return;
+  }
 
   const newGoal = { id: Date.now(), type, amount };
   systemGoals.push(newGoal);
@@ -956,7 +1116,7 @@ function deleteGoal(id) {
   calculateSuccessMetrics();
 }
 
-function calculateSuccessMetrics() {
+window.calculateSuccessMetrics = function calculateSuccessMetrics() {
   if (!ui.assets) ui = getUIElements();
   const history = getHistory();
 
@@ -1120,7 +1280,7 @@ function calculateSuccessMetrics() {
 
     container.appendChild(card);
   });
-}
+};
 
 let calcExpression = "";
 

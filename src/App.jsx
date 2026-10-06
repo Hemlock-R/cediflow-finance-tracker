@@ -67,6 +67,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
 
@@ -78,6 +79,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
 
@@ -89,6 +91,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
 
@@ -100,6 +103,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
           </div>
@@ -119,6 +123,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
 
@@ -130,6 +135,7 @@ function App() {
                 placeholder="0.00"
                 min="0"
                 step="0.01"
+                onChange={() => window.calculateAndCompare()}
               />
             </div>
           </div>
@@ -156,6 +162,7 @@ function App() {
                   placeholder="0.00"
                   min="0"
                   step="0.01"
+                  
                 />
               </div>
 
@@ -184,7 +191,20 @@ function App() {
           <div className="action-container">
             <div className="input-group">
               <label htmlFor="logDate">Select Progress Date</label>
-              <input type="date" id="logDate" />
+              <input
+                type="date"
+                id="logDate"
+                defaultValue={(() => {
+                  const now = new Date();
+                  return (
+                    now.getFullYear() +
+                    "-" +
+                    String(now.getMonth() + 1).padStart(2, "0") +
+                    "-" +
+                    String(now.getDate()).padStart(2, "0")
+                  );
+                })()}
+              />
             </div>
 
             <button

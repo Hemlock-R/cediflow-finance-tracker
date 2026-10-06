@@ -824,3 +824,251 @@ tr.editing-row {
   }
 }
 
+#root {
+  width: 100%;
+  max-width: none;
+}
+
+.tailwind-test {
+  @apply text-center;
+}
+
+.site-message {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  min-width: 240px;
+  max-width: 340px;
+  padding: 12px 16px;
+
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+
+  font-size: 0.88rem;
+  font-weight: 500;
+
+  opacity: 0;
+  transform: translateY(15px);
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.site-message.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.site-message.success {
+  border-left: 3px solid var(--color-income);
+}
+
+.site-message.error {
+  border-left: 3px solid var(--color-liability);
+}
+
+.site-message.warning {
+  border-left: 3px solid #d29922;
+}
+
+@media (max-width: 600px) {
+  .site-message {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    min-width: 0;
+    max-width: none;
+  }
+}
+
+.site-message-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.site-message-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  line-height: 1.35;
+}
+
+.site-message-content strong {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.site-message-content span {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.site-message.success .site-message-icon {
+  background-color: rgba(46, 160, 67, 0.15);
+  color: var(--color-income);
+}
+
+.site-message.error .site-message-icon {
+  background-color: rgba(248, 81, 73, 0.15);
+  color: var(--color-liability);
+}
+
+.site-message.warning .site-message-icon {
+  background-color: rgba(210, 153, 34, 0.15);
+  color: #d29922;
+}
+
+.site-confirm {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+
+  width: min(520px, calc(100% - 32px));
+
+  z-index: 10000;
+
+  padding: 18px 20px;
+
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+
+  border: 1px solid var(--border-color);
+  border-top: 3px solid #d29922;
+  border-radius: 10px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-confirm.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.site-confirm-content {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.site-confirm-icon {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background-color: rgba(210, 153, 34, 0.15);
+  color: #d29922;
+
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.site-confirm-text {
+  flex: 1;
+}
+
+.site-confirm-text strong {
+  display: block;
+  margin-bottom: 4px;
+
+  font-size: 0.95rem;
+}
+
+.site-confirm-text span {
+  display: block;
+
+  color: var(--text-secondary);
+
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.site-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 16px;
+}
+
+.site-confirm-actions button {
+  padding: 8px 14px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 7px;
+
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.site-confirm-cancel {
+  background-color: transparent;
+  color: var(--text-secondary);
+}
+
+.site-confirm-confirm {
+  background-color: var(--color-liability);
+  color: white;
+  border-color: var(--color-liability) !important;
+}
+
+.site-confirm-actions button:hover {
+  opacity: 0.85;
+}
+
+@media (max-width: 600px) {
+  .site-confirm {
+    top: 15px;
+  }
+
+  .site-confirm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .site-confirm-actions button {
+    width: 100%;
+  }
+}

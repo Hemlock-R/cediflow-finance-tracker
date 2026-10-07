@@ -835,7 +835,6 @@ tr.editing-row {
 
 .site-message {
   position: fixed;
-  right: 24px;
   bottom: 24px;
   z-index: 9999;
 
@@ -843,8 +842,8 @@ tr.editing-row {
   align-items: center;
   gap: 10px;
 
-  min-width: 240px;
-  max-width: 340px;
+  min-width: 600px;
+  max-width: 1000px;
   padding: 12px 16px;
 
   background-color: var(--surface-color);
@@ -863,7 +862,7 @@ tr.editing-row {
   pointer-events: none;
 
   transition:
-    opacity 0.2s ease,
+    opacity 0.5s ease,
     transform 0.2s ease;
 }
 
@@ -875,14 +874,17 @@ tr.editing-row {
 
 .site-message.success {
   border-left: 3px solid var(--color-income);
+  border-right: 3px solid var(--color-income);
 }
 
 .site-message.error {
   border-left: 3px solid var(--color-liability);
+  border-right: 3px solid var(--color-liability);
 }
 
 .site-message.warning {
   border-left: 3px solid #d29922;
+  border-right: 3px solid #d29922;
 }
 
 @media (max-width: 600px) {

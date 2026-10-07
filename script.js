@@ -795,10 +795,12 @@ function saveCurrentDay() {
       !confirm(
         `Overwrite historical entry configuration instance recorded for ${date}?`,
       )
+      
     ) {
       renderHistoryTable();
       return;
     }
+    
   }
 
   const currentTimeStr = new Date().toLocaleTimeString("en-US", {
@@ -1245,6 +1247,8 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
       deleteGoal(goal.id);
     };
 
+    
+
     rowWrap.appendChild(tSpan);
     rowWrap.appendChild(rBtn);
 
@@ -1362,6 +1366,7 @@ function triggerSystemFactoryReset() {
     switchTab("dashboardView", document.querySelectorAll(".nav-tab")[0]);
   }
 }
+
 
 // ==========================================
 // EXPORT FUNCTION (Cross-Environment)

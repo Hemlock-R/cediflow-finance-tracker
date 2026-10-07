@@ -162,7 +162,6 @@ function App() {
                   placeholder="0.00"
                   min="0"
                   step="0.01"
-                  
                 />
               </div>
 
@@ -433,6 +432,16 @@ function App() {
                   <option value="netWorth">Target Net Worth</option>
                   <option value="savings">Target Money Saved</option>
                   <option value="expenses">Reduce Monthly Expenses Cap</option>
+                </select>
+              </div>
+
+              <div className="input-group">
+                <label>Goal Period</label>
+
+                <select id="goalPeriod">
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
                 </select>
               </div>
 

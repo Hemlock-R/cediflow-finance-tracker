@@ -783,25 +783,24 @@ function getHistory() {
   return safeGetLocalStorage("wealthDashboardHistory", []);
 }
 
-function saveCurrentDay() {
+async function saveCurrentDay() {
   if (!ui.logDate) ui = getUIElements();
-  const now = new Date();
-  const date = now.toISOString().split("T")[0];
+  const date = ui.logDate.value;
 
   let history = getHistory();
   const existIndex = history.findIndex((i) => i.date === date);
   if (existIndex !== -1) {
-    if (
-      !confirm(
-        `Overwrite historical entry configuration instance recorded for ${date}?`,
-      )
-      
-    ) {
-      renderHistoryTable();
-      return;
-    }
-    
+  const confirmed = await showConfirmMessage(
+    "Entry already exists",
+    `A financial entry for ${date} already exists. Do you want to overwrite it?`,
+    "Yes, Overwrite",
+  );
+
+  if (!confirmed) {
+    renderHistoryTable();
+    return;
   }
+}
 
   const currentTimeStr = new Date().toLocaleTimeString("en-US", {
     hour12: false,
@@ -843,9 +842,10 @@ function saveCurrentDay() {
   ui.pocketMoney.value = "";
   ui.savedMoney.value = "";
 
-  calculateAndCompare();
+ calculateAndCompare();
+ calculateSuccessMetrics();
 
-  showSiteMessage("Day saved successfully!", "success");
+ showSiteMessage("Day saved successfully!", "success");
 }
 
 function editEntry(id) {
@@ -990,19 +990,25 @@ function cancelEntryEdit(id) {
   renderHistoryTable();
 }
 
-function deleteEntry(id) {
-  if (
-    confirm(
-      "Delete structural entry data block from device memory history tracking tables?",
-    )
-  ) {
-    localStorage.setItem(
-      "wealthDashboardHistory",
-      JSON.stringify(getHistory().filter((i) => i.id !== id)),
-    );
-    renderHistoryTable();
-    calculateAndCompare();
-  }
+async function deleteEntry(id) {
+  const confirmed = await showConfirmMessage(
+    "Confirm entry deletion",
+    "Are you sure you want to delete this financial history entry?",
+    "Yes, Delete",
+  );
+
+  if (!confirmed) return;
+
+  localStorage.setItem(
+    "wealthDashboardHistory",
+    JSON.stringify(getHistory().filter((i) => i.id !== id)),
+  );
+
+  renderHistoryTable();
+  calculateAndCompare();
+  calculateSuccessMetrics();
+
+  showSiteMessage("History entry deleted successfully.", "success");
 }
 
 window.renderHistoryTable = function renderHistoryTable() {
@@ -1091,10 +1097,13 @@ window.renderHistoryTable = function renderHistoryTable() {
 
 function saveSystemGoal() {
   const typeEl = document.getElementById("goalType");
+  const periodEl = document.getElementById("goalPeriod");
   const amountEl = document.getElementById("goalAmount");
-  if (!typeEl || !amountEl) return;
+
+  if (!typeEl || !periodEl || !amountEl) return;
 
   const type = typeEl.value;
+  const period = periodEl.value;
   const amount = parseFloat(amountEl.value);
 
   if (isNaN(amount) || amount <= 0) {
@@ -1105,17 +1114,107 @@ function saveSystemGoal() {
     return;
   }
 
-  const newGoal = { id: Date.now(), type, amount };
+  const existingGoal = systemGoals.find(
+    (goal) => goal.type === type && (goal.period || "month") === period,
+  );
+
+  if (existingGoal) {
+    const periodName =
+      period === "week"
+        ? "This Week"
+        : period === "year"
+          ? "This Year"
+          : "This Month";
+
+    const goalName =
+      type === "netWorth"
+        ? "Net Worth"
+        : type === "savings"
+          ? "Money Saved"
+          : "Expense";
+
+    showSiteMessage(
+      `You already have a ${goalName} goal for ${periodName}.`,
+      "warning",
+    );
+
+    return;
+  }
+
+  const newGoal = {
+    id: Date.now(),
+    type,
+    period,
+    amount,
+  };
+
+  
+
   systemGoals.push(newGoal);
   localStorage.setItem("sys_goals", JSON.stringify(systemGoals));
+
   amountEl.value = "";
+
   calculateSuccessMetrics();
 }
 
-function deleteGoal(id) {
-  systemGoals = systemGoals.filter((g) => g.id !== id);
+window.deleteGoal = async function deleteGoal(id) {
+  const confirmed = await showConfirmMessage(
+    "Remove this goal?",
+    "This goal will be removed from your active financial goals.",
+    "Yes, Remove Goal",
+  );
+
+  if (!confirmed) return;
+
+  systemGoals = systemGoals.filter((goal) => goal.id !== id);
+
   localStorage.setItem("sys_goals", JSON.stringify(systemGoals));
+
   calculateSuccessMetrics();
+
+  showSiteMessage("Goal removed successfully.", "success");
+};
+
+function getGoalPeriodStart(period, referenceDate = new Date()) {
+  const start = new Date(
+    referenceDate.getFullYear(),
+    referenceDate.getMonth(),
+    referenceDate.getDate(),
+  );
+
+  if (period === "week") {
+    const day = start.getDay();
+    const diff = day === 0 ? -6 : 1 - day;
+    start.setDate(start.getDate() + diff);
+  } else if (period === "month") {
+    start.setDate(1);
+  } else if (period === "year") {
+    start.setMonth(0, 1);
+  }
+
+  return start;
+}
+
+function getEntriesForGoalPeriod(period) {
+  const now = new Date();
+  const start = getGoalPeriodStart(period, now);
+
+  const nextStart = new Date(start);
+
+  if (period === "week") {
+    nextStart.setDate(nextStart.getDate() + 7);
+  } else if (period === "month") {
+    nextStart.setMonth(nextStart.getMonth() + 1);
+  } else {
+    nextStart.setFullYear(nextStart.getFullYear() + 1);
+  }
+
+  return getHistory().filter((entry) => {
+    const entryDate = new Date(`${entry.date}T00:00:00`);
+
+    return entryDate >= start && entryDate < nextStart;
+  });
 }
 
 window.calculateSuccessMetrics = function calculateSuccessMetrics() {
@@ -1155,6 +1254,21 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
   const liabilities = parseFloat(ui.liabilities?.value) || 0;
   const income = parseFloat(ui.income?.value) || 0;
   const expenses = parseFloat(ui.expenses?.value) || 0;
+
+  const latestEntry = history.length > 0 ? history[0] : null;
+
+  const actualNetWorth = latestEntry
+    ? Number(latestEntry.netWorth || 0)
+    : assets - liabilities;
+
+  const actualSavings = history.reduce(
+    (total, entry) => total + Number(entry.saved || 0),
+    0,
+  );
+
+  const actualExpenses = latestEntry
+    ? Number(latestEntry.expenses || 0)
+    : expenses;
 
   let score = 50;
   if (assets > liabilities) score += 15;
@@ -1196,15 +1310,29 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
   systemGoals.forEach((goal) => {
     let currentActual = 0;
     let titleLabel = "";
+    const goalPeriod = goal.period || "month";
+    const periodEntries = getEntriesForGoalPeriod(goalPeriod);
+    const latestPeriodEntry =
+      periodEntries.length > 0 ? periodEntries[0] : null;
 
     if (goal.type === "netWorth") {
-      currentActual = assets - liabilities;
+      currentActual = latestPeriodEntry
+        ? Number(latestPeriodEntry.netWorth || 0)
+        : 0;
+
       titleLabel = "Net Worth Goal";
     } else if (goal.type === "savings") {
-      currentActual = saved;
+      currentActual = periodEntries.reduce(
+        (total, entry) => total + Number(entry.saved || 0),
+        0,
+      );
+
       titleLabel = "Money Saved Goal";
     } else if (goal.type === "expenses") {
-      currentActual = expenses;
+      currentActual = latestPeriodEntry
+        ? Number(latestPeriodEntry.expenses || 0)
+        : 0;
+
       titleLabel = "Expense Ceiling Cap";
     }
 
@@ -1238,7 +1366,15 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     rowWrap.style.fontWeight = "bold";
 
     const tSpan = document.createElement("span");
-    tSpan.textContent = `${titleLabel}: ${formatter.format(goal.amount)}`;
+
+    const periodLabel =
+      goal.period === "week"
+        ? "This Week"
+        : goal.period === "year"
+          ? "This Year"
+          : "This Month";
+
+    tSpan.textContent = `${titleLabel} — ${periodLabel}: ${formatter.format(goal.amount)}`;
 
     const rBtn = document.createElement("button");
     rBtn.className = "btn-action";
@@ -1352,19 +1488,25 @@ function runCalc() {
   calcClearOnNextInput = true;
 }
 
-function triggerSystemFactoryReset() {
-  if (
-    confirm(
-      "CRITICAL INTERVENTION: This resets all custom vocabulary sets, UI layout states, and logs. Proceed?",
-    )
-  ) {
-    localStorage.clear();
-    systemVocab = defaultVocabulary;
-    systemPrefs = defaultPreferences;
-    systemGoals = [];
-    applyPreferencesEngineState();
-    switchTab("dashboardView", document.querySelectorAll(".nav-tab")[0]);
-  }
+async function triggerSystemFactoryReset() {
+  const confirmed = await showConfirmMessage(
+    "Confirm factory reset",
+    "This will permanently remove your saved financial data, goals, vocabulary, and preferences from this device.",
+    "Yes, Reset Everything",
+  );
+
+  if (!confirmed) return;
+
+  localStorage.removeItem("wealthDashboardHistory");
+  localStorage.removeItem("sys_goals");
+  localStorage.removeItem("sys_vocabulary");
+  localStorage.removeItem("sys_preferences");
+
+  showSiteMessage("Your CediFlow data has been reset successfully.", "success");
+
+  setTimeout(() => {
+    location.reload();
+  }, 1200);
 }
 
 
@@ -1396,7 +1538,7 @@ async function exportSystemData() {
       const writable = await handle.createWritable();
       await writable.write(jsonString);
       await writable.close();
-      alert("Export completed successfully!");
+      showSiteMessage("Export completed successfully.", "success");
       return;
     } catch (err) {
       if (err.name !== "AbortError") {
@@ -1418,10 +1560,13 @@ async function exportSystemData() {
     downloadAnchor.click();
     document.body.removeChild(downloadAnchor);
     setTimeout(() => URL.revokeObjectURL(downloadAnchor.href), 1000);
-    alert("Export completed successfully!");
+    showSiteMessage("Export completed successfully.", "success");
   } catch (fallbackErr) {
     console.error("Export fallback failed:", fallbackErr);
-    alert("Export failed. Please check browser permissions.");
+    showSiteMessage(
+      "Export failed. Please check your browser permissions.",
+      "error",
+    );
   }
 }
 
@@ -1489,10 +1634,16 @@ function importSystemData(event) {
         }
       }
 
-      alert("Data imported successfully! The page will now reload.");
+      showSiteMessage(
+        "Data imported successfully. The page will now reload.",
+        "success",
+      );
       location.reload();
     } catch (err) {
-      alert("Failed to parse import file. Ensure it is a valid JSON backup.");
+      showSiteMessage(
+        "Failed to parse the import file. Make sure it is a valid JSON backup.",
+        "error",
+      );
       console.error(err);
     }
   };

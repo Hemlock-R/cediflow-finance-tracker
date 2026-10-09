@@ -255,7 +255,7 @@ function App() {
 
             <div className="sketch-table-container">
               <div className="sketch-row sketch-income" id="rowIncome">
-                INCOME
+                TOTAL INCOME
                 <span className="sketch-val" id="sketchIncome">
                   GH₵0.00
                 </span>

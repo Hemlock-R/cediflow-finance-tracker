@@ -202,6 +202,8 @@ function getUIElements() {
     niStatus: document.getElementById("netIncomeStatus"),
     advisorPanel: document.getElementById("blueprintContent"),
     historyBody: document.getElementById("historyBody"),
+    barSavings: document.getElementById("barSavings"),
+    pctSavings: document.getElementById("pctSavings"),
   };
 }
 
@@ -618,12 +620,12 @@ window.calculateAndCompare = function calculateAndCompare() {
   if (!ui.assets) ui = getUIElements();
   if (!ui.assets) return;
 
- const snapshot = getDashboardFinancialSnapshot();
+  const snapshot = getDashboardFinancialSnapshot();
 
- const assets = snapshot.assets;
- const liabilities = snapshot.liabilities;
- const income = snapshot.income;
- const expenses = snapshot.expenses;
+  const assets = snapshot.assets;
+  const liabilities = snapshot.liabilities;
+  const income = snapshot.income;
+  const expenses = snapshot.expenses;
 
   if (ui.sketchIncome) ui.sketchIncome.textContent = formatter.format(income);
   if (ui.sketchExpenses)
@@ -665,36 +667,85 @@ window.calculateAndCompare = function calculateAndCompare() {
     }
   }
 
-  const grandTotal = assets + liabilities + income + expenses;
-  if (grandTotal === 0) {
-    if (ui.barAsset)
-      ui.barAsset.style.width =
-        ui.barIncome.style.width =
-        ui.barExpense.style.width =
-        ui.barLiability.style.width =
-          "25%";
-    if (ui.pctAsset)
-      ui.pctAsset.textContent =
-        ui.pctIncome.textContent =
-        ui.pctExpense.textContent =
-        ui.pctLiability.textContent =
-          "0%";
-  } else {
-    const aP = (assets / grandTotal) * 100;
-    const iP = (income / grandTotal) * 100;
-    const eP = (expenses / grandTotal) * 100;
-    const lP = (liabilities / grandTotal) * 100;
+  // GLOBAL DISTRIBUTION BAR — totals from all saved history
+  const historyForDistribution = getHistory();
 
-    if (ui.barAsset) ui.barAsset.style.width = `${aP}%`;
-    if (ui.barIncome) ui.barIncome.style.width = `${iP}%`;
-    if (ui.barExpense) ui.barExpense.style.width = `${eP}%`;
-    if (ui.barLiability) ui.barLiability.style.width = `${lP}%`;
+  const distributionTotals = historyForDistribution.reduce(
+    (totals, item) => {
+      totals.assets += Number(item.calculatedAssets ?? item.assets ?? 0);
+      totals.income += Number(item.income ?? 0);
+      totals.expenses += Number(item.expenses ?? 0);
+      totals.liabilities += Number(item.liabilities ?? 0);
+      totals.liabilitie += Number(item.liabilities ?? 0);
 
-    if (ui.pctAsset) ui.pctAsset.textContent = `${aP.toFixed(1)}%`;
-    if (ui.pctIncome) ui.pctIncome.textContent = `${iP.toFixed(1)}%`;
-    if (ui.pctExpense) ui.pctExpense.textContent = `${eP.toFixed(1)}%`;
-    if (ui.pctLiability) ui.pctLiability.textContent = `${lP.toFixed(1)}%`;
-  }
+      return totals;
+    },
+    {
+      assets: 0,
+      income: 0,
+      expenses: 0,
+      liabilities: 0,
+    },
+  );
+
+  const savings = snapshot.savings;
+
+  const grandTotal = assets + savings + income + expenses + liabilities;
+
+  const distributionBars = [
+    { bar: ui.barAsset, pct: ui.pctAsset, value: assets },
+    { bar: ui.barSavings, pct: ui.pctSavings, value: savings },
+    { bar: ui.barIncome, pct: ui.pctIncome, value: income },
+    { bar: ui.barExpense, pct: ui.pctExpense, value: expenses },
+    { bar: ui.barLiability, pct: ui.pctLiability, value: liabilities },
+  ];
+
+  distributionBars.forEach(({ bar, pct, value }) => {
+    const percentage = grandTotal > 0 ? (value / grandTotal) * 100 : 0;
+
+    if (bar) {
+      bar.style.width = `${grandTotal > 0 ? percentage : 20}%`;
+    }
+
+    if (pct) {
+      pct.textContent = `${percentage.toFixed(1)}%`;
+    }
+  });
+
+  const categories = [
+    {
+      total: distributionTotals.assets,
+      bar: ui.barAsset,
+      label: ui.pctAsset,
+    },
+    {
+      total: distributionTotals.income,
+      bar: ui.barIncome,
+      label: ui.pctIncome,
+    },
+    {
+      total: distributionTotals.expenses,
+      bar: ui.barExpense,
+      label: ui.pctExpense,
+    },
+    {
+      total: distributionTotals.liabilities,
+      bar: ui.barLiability,
+      label: ui.pctLiability,
+    },
+  ];
+
+  categories.forEach(({ total, bar, label }) => {
+    const percentage = grandTotal > 0 ? (total / grandTotal) * 100 : 0;
+
+    if (bar) {
+      bar.style.width = `${grandTotal > 0 ? percentage : 25}%`;
+    }
+
+    if (label) {
+      label.textContent = `${percentage.toFixed(1)}%`;
+    }
+  });
 
   const netWorth = assets - liabilities;
   if (ui.nwDisplay) {
@@ -736,7 +787,7 @@ window.calculateAndCompare = function calculateAndCompare() {
         "Enter numbers to isolate exactly which quadrant holds leverage logic runtime properties.";
     }
   }
-};
+};;
 
 function generateWealthAdvice(snapshot) {
   const {
@@ -841,12 +892,12 @@ function getDashboardFinancialSnapshot() {
     Number(item.liabilities ?? 0),
   );
 
-  const assets =
-    assetValues.reduce((total, value) => total + value, 0) / assetValues.length;
+  const assets = assetValues.reduce((total, value) => total + value, 0);
 
-  const liabilities =
-    liabilityValues.reduce((total, value) => total + value, 0) /
-    liabilityValues.length;
+  const liabilities = liabilityValues.reduce(
+    (total, value) => total + value,
+    0,
+  );
 
   const income = sortedHistory.reduce(
     (total, item) => total + Number(item.income || 0),
@@ -1096,6 +1147,37 @@ function saveEntryEdit(id) {
   showSiteMessage("History entry updated successfully!", "success");
 }
 
+window.deleteEntry = async function deleteEntry(id) {
+  const confirmed = await showConfirmMessage(
+    "Confirm entry deletion",
+    "Are you sure you want to delete this financial history entry?",
+    "Yes, Delete",
+  );
+
+  if (!confirmed) return;
+
+  const history = getHistory();
+  const updatedHistory = history.filter(
+    (item) => String(item.id) !== String(id),
+  );
+
+  if (updatedHistory.length === history.length) {
+    showSiteMessage("The history entry could not be found.", "error");
+    return;
+  }
+
+  localStorage.setItem(
+    "wealthDashboardHistory",
+    JSON.stringify(updatedHistory),
+  );
+
+  renderHistoryTable();
+  calculateAndCompare();
+  calculateSuccessMetrics();
+
+  showSiteMessage("History entry deleted successfully.", "success");
+};
+
 window.renderHistoryTable = function renderHistoryTable() {
   if (!ui.historyBody) ui = getUIElements();
   if (!ui.historyBody) return;
@@ -1189,6 +1271,18 @@ function saveSystemGoal() {
   const typeEl = document.getElementById("goalType");
   const periodEl = document.getElementById("goalPeriod");
   const amountEl = document.getElementById("goalAmount");
+
+  const duplicateGoal = systemGoals.some(
+    (goal) => goal.type === type && goal.period === period,
+  );
+
+  if (duplicateGoal) {
+    showSiteMessage(
+      `You already have a ${period} goal for this objective. Remove the existing goal before creating another.`,
+      "warning",
+    );
+    return;
+  }
 
   if (!typeEl || !periodEl || !amountEl) return;
 
@@ -1307,11 +1401,12 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     }
   }
 
-  const saved = parseFloat(ui.savedMoney?.value) || 0;
-  const assets = parseFloat(ui.assets?.value) || 0;
-  const liabilities = parseFloat(ui.liabilities?.value) || 0;
-  const income = parseFloat(ui.income?.value) || 0;
-  const expenses = parseFloat(ui.expenses?.value) || 0;
+  const snapshot = getDashboardFinancialSnapshot();
+
+  const assets = snapshot.assets;
+  const liabilities = snapshot.liabilities;
+  const income = snapshot.income;
+  const expenses = snapshot.expenses;
 
   const latestEntry = history.length > 0 ? history[0] : null;
 
@@ -1324,16 +1419,34 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     0,
   );
 
-  const actualExpenses = latestEntry
-    ? Number(latestEntry.expenses || 0)
-    : expenses;
+  const actualExpenses = history.reduce(
+    (total, entry) => total + Number(entry.expenses || 0),
+    0,
+  );
 
   let score = 50;
-  if (assets > liabilities) score += 15;
-  else if (assets < liabilities) score -= 15;
-  if (income > expenses) score += 15;
-  else if (income < expenses) score -= 15;
-  if (saved > 0) score += 10;
+
+  if (assets > liabilities) {
+    score += 15;
+  } else if (assets < liabilities) {
+    score -= 15;
+  }
+
+  if (income > expenses) {
+    score += 15;
+  } else if (income < expenses) {
+    score -= 15;
+  }
+
+  if (actualSavings > 0) {
+    score += 10;
+  }
+
+  if (actualNetWorth > 0) {
+    score += 10;
+  }
+
+  score = Math.max(0, Math.min(100, score));
   if (score > 100) score = 100;
   if (score < 0) score = 0;
 

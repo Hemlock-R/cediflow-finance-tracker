@@ -208,6 +208,7 @@ function App() {
 
               <div className="visual-bar-container">
                 <div className="bar-segment" id="barAsset"></div>
+                <div className="bar-segment" id="barSavings"></div>
                 <div className="bar-segment" id="barIncome"></div>
                 <div className="bar-segment" id="barExpense"></div>
                 <div className="bar-segment" id="barLiability"></div>
@@ -221,7 +222,13 @@ function App() {
                     25%
                   </span>
                 </div>
-
+                <div className="legend-item">
+                  <span className="dot dot-savings"></span>
+                  <span className="legend-label">Savings</span>
+                  <span className="legend-value" id="pctSavings">
+                    20%
+                  </span>
+                </div>
                 <div className="legend-item">
                   <span className="dot dot-income"></span>
                   <span className="legend-label">Income</span>
@@ -229,7 +236,6 @@ function App() {
                     25%
                   </span>
                 </div>
-
                 <div className="legend-item">
                   <span className="dot dot-expense"></span>
                   <span className="legend-label">Expenses</span>
@@ -237,7 +243,6 @@ function App() {
                     25%
                   </span>
                 </div>
-
                 <div className="legend-item">
                   <span className="dot dot-liability"></span>
                   <span className="legend-label">Liabilities</span>

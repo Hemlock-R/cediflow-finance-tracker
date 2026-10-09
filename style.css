@@ -346,9 +346,15 @@ select:focus {
 
 .visualization-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
   width: 100%;
+  min-width: 0;
+}
+
+.visualization-layout > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .comp-box {
@@ -396,6 +402,10 @@ select:focus {
 #barLiability {
   background-color: var(--color-liability);
 }
+#barSavings {
+background-color: #a855f7;
+}
+
 
 .legend-grid {
   display: grid;
@@ -436,6 +446,10 @@ select:focus {
 .dot-liability {
   background-color: var(--color-liability);
 }
+.dot-savings {
+background-color: #a855f7;
+}
+
 
 .sketch-table-container {
   background-color: var(--bg-input);
@@ -446,22 +460,13 @@ select:focus {
   flex-direction: column;
   min-height: 260px;
   max-height: 400px;
+  width: 100%;
+  min-width: 0;
 }
 
-.sketch-row {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 0.4rem;
-  text-align: center;
-  font-weight: bold;
-  font-size: 0.85rem;
-  overflow: hidden;
-  min-height: 50px;
-  flex: var(--flex-income);
-  transition: flex 0.65s ease;
-}
+
+
+
 .sketch-income {
   border-bottom: 2px solid var(--border-color);
   color: var(--color-income);
@@ -472,25 +477,63 @@ select:focus {
   flex: var(--flex-expenses);
 }
 .sketch-split {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   min-height: 70px;
   flex: var(--flex-split);
+  min-width: 0;
+  overflow: hidden;
+}
+
+
+
+.sketch-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.6rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.85rem;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  min-height: 65px;
+  flex: var(--flex-income);
   transition: flex 0.65s ease;
 }
+
 .sketch-col {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem;
+  padding: 0.6rem;
   text-align: center;
   font-weight: bold;
   font-size: 0.85rem;
-  overflow: hidden;
-  min-width: 60px;
-  transition: flex 0.65s ease;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  min-height: 70px;
 }
+
+.sketch-val {
+  display: block;
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+  line-height: 1.4;
+  margin-top: 0.25rem;
+  color: #ffffff;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: center;
+  max-width: 100%;
+  min-width: 0;
+}
+
+
 .sketch-assets {
   border-right: 2px solid var(--border-color);
   color: var(--color-asset);
@@ -500,16 +543,9 @@ select:focus {
   color: var(--color-liability);
   flex: var(--flex-liabilities);
 }
-.sketch-val {
-  display: block;
-  font-size: 0.95rem;
-  margin-top: 0.15rem;
-  color: #ffffff;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 90%;
-}
+
+
+
 
 .results-section {
   display: grid;

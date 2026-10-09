@@ -182,7 +182,6 @@ function getUIElements() {
     liabilities: document.getElementById("liabilities"),
     income: document.getElementById("income"),
     expenses: document.getElementById("expenses"),
-    pocketMoney: document.getElementById("pocketMoney"),
     savedMoney: document.getElementById("savedMoney"),
     logDate: document.getElementById("logDate"),
     barAsset: document.getElementById("barAsset"),
@@ -619,15 +618,12 @@ window.calculateAndCompare = function calculateAndCompare() {
   if (!ui.assets) ui = getUIElements();
   if (!ui.assets) return;
 
-  const pocket = parseFloat(ui.pocketMoney?.value) || 0;
-  const saved = parseFloat(ui.savedMoney?.value) || 0;
+ const snapshot = getDashboardFinancialSnapshot();
 
-  const baseAssets = parseFloat(ui.assets?.value) || 0;
-  const assets = baseAssets + pocket + saved;
-
-  const liabilities = parseFloat(ui.liabilities?.value) || 0;
-  const income = parseFloat(ui.income?.value) || 0;
-  const expenses = parseFloat(ui.expenses?.value) || 0;
+ const assets = snapshot.assets;
+ const liabilities = snapshot.liabilities;
+ const income = snapshot.income;
+ const expenses = snapshot.expenses;
 
   if (ui.sketchIncome) ui.sketchIncome.textContent = formatter.format(income);
   if (ui.sketchExpenses)
@@ -728,12 +724,7 @@ window.calculateAndCompare = function calculateAndCompare() {
 
   if (ui.advisorPanel) {
     ui.advisorPanel.textContent = "";
-    const adviceBlocks = generateWealthAdvice(
-      assets,
-      liabilities,
-      income,
-      expenses,
-    );
+    const adviceBlocks = generateWealthAdvice(snapshot);
     adviceBlocks.forEach((itemText) => {
       const itemDiv = document.createElement("div");
       itemDiv.className = "blueprint-item";
@@ -747,32 +738,70 @@ window.calculateAndCompare = function calculateAndCompare() {
   }
 };
 
-function generateWealthAdvice(assets, liabilities, income, expenses) {
+function generateWealthAdvice(snapshot) {
+  const {
+    assets,
+    liabilities,
+    income,
+    expenses,
+    latestNetWorth,
+    savings,
+    incomeExpenseBalance,
+    assetTrend,
+    liabilityTrend,
+  } = snapshot;
+
   if (assets === 0 && liabilities === 0 && income === 0 && expenses === 0) {
     return [
-      "Start by entering your income, expenses, assets, and debts. Once you do, I'll help you understand what to focus on next.",
+      "Your financial history is still empty. Save your first financial entry and I'll start tracking your progress.",
     ];
   }
 
-  let logs = [];
+  const logs = [];
 
-  if (assets < liabilities) {
+  if (latestNetWorth < 0) {
     logs.push(
-      "You currently owe more than you own. Focus on reducing your debt, especially any debt that is costing you a lot in interest.",
+      "Your latest net worth is below zero. Reducing liabilities should be one of your main priorities.",
     );
-  } else {
+  } else if (latestNetWorth > 0) {
     logs.push(
-      "You're in a good starting position. What you own is higher than what you owe, so keep building your assets while managing your debts.",
+      "Your latest net worth is positive. Keep strengthening your assets while keeping your liabilities under control.",
     );
   }
 
-  if (income < expenses) {
+  if (incomeExpenseBalance < 0) {
     logs.push(
-      "You're spending more than you're earning. Look at your expenses and see what you can reduce, while also looking for ways to increase your income.",
+      `Across your recorded history, you've spent more than you've earned. Reducing unnecessary expenses or increasing income should be your next focus.`,
     );
-  } else {
+  } else if (incomeExpenseBalance > 0) {
     logs.push(
-      "You're spending less than you earn. That's a good sign. Try to save some of the money left over and use it to work toward your financial goals.",
+      `Across your recorded history, you've earned more than you've spent. Directing part of that surplus toward savings and productive assets can strengthen your position.`,
+    );
+  }
+
+  if (assetTrend > 0) {
+    logs.push(
+      "Your recorded asset position is moving upward. Continue building assets that can support your long-term financial growth.",
+    );
+  } else if (assetTrend < 0) {
+    logs.push(
+      "Your recorded asset position has declined over time. Review what caused the reduction before committing more money elsewhere.",
+    );
+  }
+
+  if (liabilityTrend < 0) {
+    logs.push(
+      "Your liabilities are moving downward, which is a positive sign. Keep that reduction going.",
+    );
+  } else if (liabilityTrend > 0) {
+    logs.push(
+      "Your liabilities have increased over your recorded history. Be careful about taking on additional debt.",
+    );
+  }
+
+  if (savings > 0) {
+    logs.push(
+      "You have recorded savings activity. Keep building that reserve and connect it to your financial goals.",
     );
   }
 
@@ -781,6 +810,84 @@ function generateWealthAdvice(assets, liabilities, income, expenses) {
 
 function getHistory() {
   return safeGetLocalStorage("wealthDashboardHistory", []);
+}
+
+function getDashboardFinancialSnapshot() {
+  const history = getHistory();
+
+  if (!history.length) {
+    return {
+      assets: 0,
+      liabilities: 0,
+      income: 0,
+      expenses: 0,
+      latestNetWorth: 0,
+      savings: 0,
+      incomeExpenseBalance: 0,
+      assetTrend: 0,
+      liabilityTrend: 0,
+    };
+  }
+
+  const sortedHistory = [...history].sort(
+    (a, b) => new Date(a.date) - new Date(b.date),
+  );
+
+  const assetValues = sortedHistory.map((item) =>
+    Number(item.calculatedAssets ?? item.assets ?? 0),
+  );
+
+  const liabilityValues = sortedHistory.map((item) =>
+    Number(item.liabilities ?? 0),
+  );
+
+  const assets =
+    assetValues.reduce((total, value) => total + value, 0) / assetValues.length;
+
+  const liabilities =
+    liabilityValues.reduce((total, value) => total + value, 0) /
+    liabilityValues.length;
+
+  const income = sortedHistory.reduce(
+    (total, item) => total + Number(item.income || 0),
+    0,
+  );
+
+  const expenses = sortedHistory.reduce(
+    (total, item) => total + Number(item.expenses || 0),
+    0,
+  );
+
+  const savings = sortedHistory.reduce(
+    (total, item) => total + Number(item.saved || 0),
+    0,
+  );
+
+  const latestEntry = sortedHistory[sortedHistory.length - 1];
+
+  const latestNetWorth = Number(
+    latestEntry?.netWorth ??
+      Number(latestEntry?.calculatedAssets ?? latestEntry?.assets ?? 0) -
+        Number(latestEntry?.liabilities ?? 0),
+  );
+
+  const firstAssets = assetValues[0] || 0;
+  const lastAssets = assetValues[assetValues.length - 1] || 0;
+
+  const firstLiabilities = liabilityValues[0] || 0;
+  const lastLiabilities = liabilityValues[liabilityValues.length - 1] || 0;
+
+  return {
+    assets,
+    liabilities,
+    income,
+    expenses,
+    latestNetWorth,
+    savings,
+    incomeExpenseBalance: income - expenses,
+    assetTrend: lastAssets - firstAssets,
+    liabilityTrend: lastLiabilities - firstLiabilities,
+  };
 }
 
 async function saveCurrentDay() {
@@ -805,24 +912,20 @@ async function saveCurrentDay() {
   const currentTimeStr = new Date().toLocaleTimeString("en-US", {
     hour12: false,
   });
-  const pocket = parseFloat(ui.pocketMoney?.value) || 0;
   const saved = parseFloat(ui.savedMoney?.value) || 0;
-  const baseAssets = parseFloat(ui.assets?.value) || 0;
-  const calculatedAssets = baseAssets + pocket + saved;
+  const assets = parseFloat(ui.assets?.value) || 0;
   const liabilities = parseFloat(ui.liabilities?.value) || 0;
 
   const entry = {
     id: existIndex !== -1 ? history[existIndex].id : Date.now(),
     date: date,
     timestamp: currentTimeStr,
-    assets: baseAssets,
-    pocket: pocket,
+    assets: assets,
     saved: saved,
-    calculatedAssets: calculatedAssets,
     liabilities: liabilities,
     income: parseFloat(ui.income?.value) || 0,
     expenses: parseFloat(ui.expenses?.value) || 0,
-    netWorth: calculatedAssets - liabilities,
+    netWorth: assets - liabilities,
   };
 
   if (existIndex !== -1) {
@@ -839,7 +942,6 @@ async function saveCurrentDay() {
   ui.liabilities.value = "";
   ui.income.value = "";
   ui.expenses.value = "";
-  ui.pocketMoney.value = "";
   ui.savedMoney.value = "";
 
  calculateAndCompare();
@@ -864,9 +966,10 @@ function editEntry(id) {
   // Cells: 0=Timestamp, 1=Date, 2=Assets, 3=Liabilities, 4=Income, 5=Expenses, 6=Net Worth, 7=Action
   const dateCell = row.cells[1];
   const assetCell = row.cells[2];
-  const liaCell = row.cells[3];
-  const incCell = row.cells[4];
-  const expCell = row.cells[5];
+  const savedCell = row.cells[3];
+  const liaCell = row.cells[4];
+  const incCell = row.cells[5];
+  const expCell = row.cells[6];
 
   row.classList.add("editing-row");
 
@@ -880,17 +983,33 @@ function editEntry(id) {
   dateCell.appendChild(dateInput);
 
   // Replace numeric cells with number inputs
-  const numericFields = [
-    {
-      cell: assetCell,
-      value:
-        entry.calculatedAssets != null ? entry.calculatedAssets : entry.assets,
-      field: "calculatedAssets",
-    },
-    { cell: liaCell, value: entry.liabilities, field: "liabilities" },
-    { cell: incCell, value: entry.income, field: "income" },
-    { cell: expCell, value: entry.expenses, field: "expenses" },
-  ];
+ const numericFields = [
+   {
+     cell: assetCell,
+     value: entry.assets || 0,
+     field: "assets",
+   },
+   {
+     cell: savedCell,
+     value: entry.saved || 0,
+     field: "saved",
+   },
+   {
+     cell: liaCell,
+     value: entry.liabilities || 0,
+     field: "liabilities",
+   },
+   {
+     cell: incCell,
+     value: entry.income || 0,
+     field: "income",
+   },
+   {
+     cell: expCell,
+     value: entry.expenses || 0,
+     field: "expenses",
+   },
+ ];
 
   numericFields.forEach((f) => {
     f.cell.innerHTML = "";
@@ -905,7 +1024,7 @@ function editEntry(id) {
   });
 
   // Replace action cell with Save / Cancel buttons
-  const tAct = row.cells[7];
+  const tAct = row.cells[8];
   tAct.innerHTML = "";
 
   const saveBtn = document.createElement("button");
@@ -936,79 +1055,45 @@ function saveEntryEdit(id) {
 
   const readInput = (field) => {
     const input = row.querySelector(`input[data-field="${field}"]`);
-    return input ? parseFloat(input.value) : 0;
+    return input ? parseFloat(input.value) || 0 : 0;
   };
 
   const dateInput = row.querySelector('input[data-field="date"]');
+
   if (!dateInput || !dateInput.value) {
     showSiteMessage("Please select a valid date.", "error");
     return;
   }
 
-  const calculatedAssets = readInput("calculatedAssets");
+  const assets = readInput("assets");
+  const saved = readInput("saved");
   const liabilities = readInput("liabilities");
   const income = readInput("income");
   const expenses = readInput("expenses");
-
-  if (
-    isNaN(calculatedAssets) ||
-    isNaN(liabilities) ||
-    isNaN(income) ||
-    isNaN(expenses)
-  ) {
-    showSiteMessage(
-      "Please enter valid numeric values for all fields.",
-      "error",
-    );
-    return;
-  }
 
   const updatedEntry = {
     id: history[index].id,
     date: dateInput.value,
     timestamp: history[index].timestamp,
-    assets: calculatedAssets,
-    pocket: 0,
-    saved: 0,
-    calculatedAssets: calculatedAssets,
+    assets: assets,
+    saved: saved,
     liabilities: liabilities,
     income: income,
     expenses: expenses,
-    netWorth: calculatedAssets - liabilities,
+    netWorth: assets - liabilities,
   };
 
   history[index] = updatedEntry;
+
   history.sort((a, b) => new Date(b.date) - new Date(a.date));
+
   localStorage.setItem("wealthDashboardHistory", JSON.stringify(history));
+
   renderHistoryTable();
   calculateAndCompare();
   calculateSuccessMetrics();
+
   showSiteMessage("History entry updated successfully!", "success");
-}
-
-function cancelEntryEdit(id) {
-  renderHistoryTable();
-}
-
-async function deleteEntry(id) {
-  const confirmed = await showConfirmMessage(
-    "Confirm entry deletion",
-    "Are you sure you want to delete this financial history entry?",
-    "Yes, Delete",
-  );
-
-  if (!confirmed) return;
-
-  localStorage.setItem(
-    "wealthDashboardHistory",
-    JSON.stringify(getHistory().filter((i) => i.id !== id)),
-  );
-
-  renderHistoryTable();
-  calculateAndCompare();
-  calculateSuccessMetrics();
-
-  showSiteMessage("History entry deleted successfully.", "success");
 }
 
 window.renderHistoryTable = function renderHistoryTable() {
@@ -1020,7 +1105,7 @@ window.renderHistoryTable = function renderHistoryTable() {
   if (history.length === 0) {
     const tr = document.createElement("tr");
     const td = document.createElement("td");
-    td.setAttribute("colspan", "8");
+    td.setAttribute("colspan", "9");
     td.style.textAlign = "center";
     td.style.color = "var(--text-secondary)";
     td.textContent = "No historical records logged yet.";
@@ -1044,11 +1129,15 @@ window.renderHistoryTable = function renderHistoryTable() {
 
     const tAst = document.createElement("td");
     tAst.style.color = "var(--color-asset)";
-    tAst.textContent = formatter.format(item.calculatedAssets || item.assets);
+    tAst.textContent = formatter.format(item.assets || 0);
+
+    const tSaved = document.createElement("td");
+    tSaved.style.color = "var(--color-income)";
+    tSaved.textContent = formatter.format(item.saved || 0);
 
     const tLia = document.createElement("td");
     tLia.style.color = "var(--color-liability)";
-    tLia.textContent = formatter.format(item.liabilities);
+    tLia.textContent = formatter.format(item.liabilities || 0);
 
     const tInc = document.createElement("td");
     tInc.style.color = "var(--color-income)";
@@ -1085,6 +1174,7 @@ window.renderHistoryTable = function renderHistoryTable() {
     r.appendChild(tTime);
     r.appendChild(tDate);
     r.appendChild(tAst);
+    r.appendChild(tSaved);
     r.appendChild(tLia);
     r.appendChild(tInc);
     r.appendChild(tExp);
@@ -1107,37 +1197,7 @@ function saveSystemGoal() {
   const amount = parseFloat(amountEl.value);
 
   if (isNaN(amount) || amount <= 0) {
-    showSiteMessage(
-      "Please specify a valid numeric objective threshold.",
-      "error",
-    );
-    return;
-  }
-
-  const existingGoal = systemGoals.find(
-    (goal) => goal.type === type && (goal.period || "month") === period,
-  );
-
-  if (existingGoal) {
-    const periodName =
-      period === "week"
-        ? "This Week"
-        : period === "year"
-          ? "This Year"
-          : "This Month";
-
-    const goalName =
-      type === "netWorth"
-        ? "Net Worth"
-        : type === "savings"
-          ? "Money Saved"
-          : "Expense";
-
-    showSiteMessage(
-      `You already have a ${goalName} goal for ${periodName}.`,
-      "warning",
-    );
-
+    showSiteMessage("Please enter a valid target amount.", "error");
     return;
   }
 
@@ -1148,14 +1208,15 @@ function saveSystemGoal() {
     amount,
   };
 
-  
-
   systemGoals.push(newGoal);
+
   localStorage.setItem("sys_goals", JSON.stringify(systemGoals));
 
   amountEl.value = "";
 
   calculateSuccessMetrics();
+
+  showSiteMessage("Financial goal added successfully.", "success");
 }
 
 window.deleteGoal = async function deleteGoal(id) {
@@ -1176,44 +1237,42 @@ window.deleteGoal = async function deleteGoal(id) {
   showSiteMessage("Goal removed successfully.", "success");
 };
 
-function getGoalPeriodStart(period, referenceDate = new Date()) {
-  const start = new Date(
-    referenceDate.getFullYear(),
-    referenceDate.getMonth(),
-    referenceDate.getDate(),
-  );
 
-  if (period === "week") {
-    const day = start.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    start.setDate(start.getDate() + diff);
-  } else if (period === "month") {
-    start.setDate(1);
-  } else if (period === "year") {
-    start.setMonth(0, 1);
-  }
 
-  return start;
-}
-
-function getEntriesForGoalPeriod(period) {
+function getGoalPeriodHistory(history, period) {
   const now = new Date();
-  const start = getGoalPeriodStart(period, now);
 
-  const nextStart = new Date(start);
+  return history.filter((item) => {
+    if (!item.date) return false;
 
-  if (period === "week") {
-    nextStart.setDate(nextStart.getDate() + 7);
-  } else if (period === "month") {
-    nextStart.setMonth(nextStart.getMonth() + 1);
-  } else {
-    nextStart.setFullYear(nextStart.getFullYear() + 1);
-  }
+    const date = new Date(item.date + "T00:00:00");
 
-  return getHistory().filter((entry) => {
-    const entryDate = new Date(`${entry.date}T00:00:00`);
+    if (period === "week") {
+      const day = now.getDay();
+      const diff = day === 0 ? 6 : day - 1;
 
-    return entryDate >= start && entryDate < nextStart;
+      const start = new Date(now);
+      start.setHours(0, 0, 0, 0);
+      start.setDate(now.getDate() - diff);
+
+      const end = new Date(start);
+      end.setDate(start.getDate() + 7);
+
+      return date >= start && date < end;
+    }
+
+    if (period === "month") {
+      return (
+        date.getFullYear() === now.getFullYear() &&
+        date.getMonth() === now.getMonth()
+      );
+    }
+
+    if (period === "year") {
+      return date.getFullYear() === now.getFullYear();
+    }
+
+    return true;
   });
 }
 
@@ -1248,9 +1307,8 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     }
   }
 
-  const pocket = parseFloat(ui.pocketMoney?.value) || 0;
   const saved = parseFloat(ui.savedMoney?.value) || 0;
-  const assets = (parseFloat(ui.assets?.value) || 0) + pocket + saved;
+  const assets = parseFloat(ui.assets?.value) || 0;
   const liabilities = parseFloat(ui.liabilities?.value) || 0;
   const income = parseFloat(ui.income?.value) || 0;
   const expenses = parseFloat(ui.expenses?.value) || 0;
@@ -1275,7 +1333,7 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
   else if (assets < liabilities) score -= 15;
   if (income > expenses) score += 15;
   else if (income < expenses) score -= 15;
-  if (saved > 0 || pocket > 0) score += 10;
+  if (saved > 0) score += 10;
   if (score > 100) score = 100;
   if (score < 0) score = 0;
 
@@ -1308,49 +1366,70 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
   }
 
   systemGoals.forEach((goal) => {
+    const periodHistory = getGoalPeriodHistory(history, goal.period || "month");
+
     let currentActual = 0;
     let titleLabel = "";
-    const goalPeriod = goal.period || "month";
-    const periodEntries = getEntriesForGoalPeriod(goalPeriod);
-    const latestPeriodEntry =
-      periodEntries.length > 0 ? periodEntries[0] : null;
 
     if (goal.type === "netWorth") {
-      currentActual = latestPeriodEntry
-        ? Number(latestPeriodEntry.netWorth || 0)
-        : 0;
-
       titleLabel = "Net Worth Goal";
-    } else if (goal.type === "savings") {
-      currentActual = periodEntries.reduce(
-        (total, entry) => total + Number(entry.saved || 0),
-        0,
-      );
 
-      titleLabel = "Money Saved Goal";
-    } else if (goal.type === "expenses") {
-      currentActual = latestPeriodEntry
-        ? Number(latestPeriodEntry.expenses || 0)
-        : 0;
+      if (periodHistory.length > 0) {
+        const latest = [...periodHistory].sort(
+          (a, b) => new Date(b.date) - new Date(a.date),
+        )[0];
 
-      titleLabel = "Expense Ceiling Cap";
+        currentActual = Number(latest.netWorth) || 0;
+      }
     }
 
+    if (goal.type === "savings") {
+      titleLabel = "Money Saved Goal";
+
+      currentActual = periodHistory.reduce(
+        (total, item) => total + (Number(item.saved) || 0),
+        0,
+      );
+    }
+
+    if (goal.type === "expenses") {
+      titleLabel = "Expense Reduction Goal";
+
+      currentActual = periodHistory.reduce(
+        (total, item) => total + (Number(item.expenses) || 0),
+        0,
+      );
+    }
+
+    const periodLabel =
+      goal.period === "week"
+        ? "This Week"
+        : goal.period === "year"
+          ? "This Year"
+          : "This Month";
+
     let pct = 0;
+
     if (goal.type === "expenses") {
       pct =
         goal.amount > 0
-          ? Math.max(0, ((goal.amount - currentActual) / goal.amount) * 100)
+          ? Math.max(
+              0,
+              Math.min(
+                100,
+                ((goal.amount - currentActual) / goal.amount) * 100,
+              ),
+            )
           : 0;
     } else {
       pct =
         goal.amount > 0
-          ? Math.min(100, (currentActual / goal.amount) * 100)
+          ? Math.min(100, Math.max(0, (currentActual / goal.amount) * 100))
           : 0;
     }
-    if (pct < 0) pct = 0;
 
     const card = document.createElement("div");
+
     card.style.backgroundColor = "rgba(0,0,0,0.2)";
     card.style.padding = "0.6rem";
     card.style.borderRadius = "6px";
@@ -1360,40 +1439,49 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     card.style.gap = "0.25rem";
 
     const rowWrap = document.createElement("div");
+
     rowWrap.style.display = "flex";
     rowWrap.style.justifyContent = "space-between";
+    rowWrap.style.alignItems = "center";
     rowWrap.style.fontSize = "0.85rem";
     rowWrap.style.fontWeight = "bold";
 
     const tSpan = document.createElement("span");
 
-    const periodLabel =
-      goal.period === "week"
-        ? "This Week"
-        : goal.period === "year"
-          ? "This Year"
-          : "This Month";
-
-    tSpan.textContent = `${titleLabel} — ${periodLabel}: ${formatter.format(goal.amount)}`;
+    tSpan.textContent =
+      `${titleLabel} — ${periodLabel}: ` + formatter.format(goal.amount);
 
     const rBtn = document.createElement("button");
+
     rBtn.className = "btn-action";
     rBtn.textContent = "Remove";
+
     rBtn.onclick = function () {
       deleteGoal(goal.id);
     };
-
-    
 
     rowWrap.appendChild(tSpan);
     rowWrap.appendChild(rBtn);
 
     const labelSub = document.createElement("div");
+
     labelSub.style.fontSize = "0.75rem";
     labelSub.style.color = "var(--text-secondary)";
-    labelSub.textContent = `Current Actual Level: ${formatter.format(currentActual)} (${pct.toFixed(1)}% Room Remaining / Optimality Match)`;
+
+    if (goal.type === "expenses") {
+      labelSub.textContent =
+        `Expenses: ${formatter.format(currentActual)} ` +
+        `of ${formatter.format(goal.amount)} ` +
+        `(${pct.toFixed(1)}% within target)`;
+    } else {
+      labelSub.textContent =
+        `Current: ${formatter.format(currentActual)} ` +
+        `of ${formatter.format(goal.amount)} ` +
+        `(${pct.toFixed(1)}% complete)`;
+    }
 
     const barBg = document.createElement("div");
+
     barBg.style.width = "100%";
     barBg.style.height = "6px";
     barBg.style.background = "rgba(255,255,255,0.05)";
@@ -1401,19 +1489,22 @@ window.calculateSuccessMetrics = function calculateSuccessMetrics() {
     barBg.style.overflow = "hidden";
 
     const barFill = document.createElement("div");
+
     barFill.style.width = pct + "%";
     barFill.style.height = "100%";
 
     if (goal.type === "expenses") {
       barFill.style.background =
-        pct <= 15 ? "var(--color-liability)" : "var(--color-asset)";
+        pct >= 100 ? "var(--color-income)" : "var(--color-liability)";
     } else {
       barFill.style.background =
         pct >= 100 ? "var(--color-asset)" : "var(--color-income)";
     }
+
     barFill.style.transition = "width 0.4s";
 
     barBg.appendChild(barFill);
+
     card.appendChild(rowWrap);
     card.appendChild(labelSub);
     card.appendChild(barBg);

@@ -116,18 +116,6 @@ function App() {
             }}
           >
             <div className="input-group">
-              <label htmlFor="pocketMoney">Money in Pocket</label>
-              <input
-                type="number"
-                id="pocketMoney"
-                placeholder="0.00"
-                min="0"
-                step="0.01"
-                onChange={() => window.calculateAndCompare()}
-              />
-            </div>
-
-            <div className="input-group">
               <label htmlFor="savedMoney">Money Saved</label>
               <input
                 type="number"
@@ -350,6 +338,7 @@ function App() {
                     <th>Logged Timestamp</th>
                     <th>Date</th>
                     <th>Assets</th>
+                    <th>Saved Money</th>
                     <th>Liabilities</th>
                     <th>Income</th>
                     <th>Expenses</th>

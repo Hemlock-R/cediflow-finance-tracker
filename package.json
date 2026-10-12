@@ -6,7 +6,7 @@
   "main": "script.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "repository": {
@@ -16,7 +16,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  
   "bugs": {
     "url": "https://github.com/Hemlock-R/cediflow-finance-tracker/issues"
   },

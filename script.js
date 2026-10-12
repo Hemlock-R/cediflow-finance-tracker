@@ -1272,18 +1272,6 @@ function saveSystemGoal() {
   const periodEl = document.getElementById("goalPeriod");
   const amountEl = document.getElementById("goalAmount");
 
-  const duplicateGoal = systemGoals.some(
-    (goal) => goal.type === type && goal.period === period,
-  );
-
-  if (duplicateGoal) {
-    showSiteMessage(
-      `You already have a ${period} goal for this objective. Remove the existing goal before creating another.`,
-      "warning",
-    );
-    return;
-  }
-
   if (!typeEl || !periodEl || !amountEl) return;
 
   const type = typeEl.value;
@@ -1292,6 +1280,18 @@ function saveSystemGoal() {
 
   if (isNaN(amount) || amount <= 0) {
     showSiteMessage("Please enter a valid target amount.", "error");
+    return;
+  }
+
+  const duplicateGoal = systemGoals.some(
+    (goal) => goal.type === type && goal.period === period,
+  );
+
+  if (duplicateGoal) {
+    showSiteMessage(
+      `You already have a goal for this objective and period. Choose a different period or objective.`,
+      "warning",
+    );
     return;
   }
 

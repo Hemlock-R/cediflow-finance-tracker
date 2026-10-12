@@ -262,7 +262,7 @@ function App() {
               </div>
 
               <div className="sketch-row sketch-expenses" id="rowExpenses">
-                EXPENSES
+                TOTAL EXPENSES
                 <span className="sketch-val" id="sketchExpenses">
                   GH₵0.00
                 </span>
@@ -270,7 +270,7 @@ function App() {
 
               <div className="sketch-split">
                 <div className="sketch-col sketch-assets" id="colAssets">
-                  ASSETS
+                  TOTAL ASSETS
                   <span className="sketch-val" id="sketchAssets">
                     GH₵0.00
                   </span>
@@ -280,7 +280,7 @@ function App() {
                   className="sketch-col sketch-liabilities"
                   id="colLiabilities"
                 >
-                  LIABILITIES
+                  TOTAL LIABILITIES
                   <span className="sketch-val" id="sketchLiabilities">
                     GH₵0.00
                   </span>
@@ -420,7 +420,7 @@ function App() {
 
             <div className="inputs-grid" style={{ marginTop: "0.5rem" }}>
               <div className="input-group">
-                <label>Target Objective Metric Type</label>
+                <label htmlFor="goalType">Target Objective Metric Type</label>
 
                 <select id="goalType">
                   <option value="netWorth">Target Net Worth</option>
@@ -430,7 +430,7 @@ function App() {
               </div>
 
               <div className="input-group">
-                <label>Goal Period</label>
+                <label htmlFor="goalPeriod">Goal Period</label>
 
                 <select id="goalPeriod">
                   <option value="week">This Week</option>
@@ -440,7 +440,7 @@ function App() {
               </div>
 
               <div className="input-group">
-                <label>Target Threshold Amount</label>
+                <label htmlFor="goalAmount">Target Threshold Amount</label>
 
                 <input
                   type="number"
@@ -609,7 +609,7 @@ function App() {
 
               <div className="vocabulary-manager">
                 <div className="input-group">
-                  <label>Target Quadrant</label>
+                  <label htmlFor="vocabTargetCategory">Target Quadrant</label>
 
                   <select id="vocabTargetCategory">
                     <option value="income">Income List</option>
@@ -620,7 +620,7 @@ function App() {
                 </div>
 
                 <div className="input-group">
-                  <label>New Keyword / Phrase</label>
+                  <label htmlFor="newVocabWord">New Keyword / Phrase</label>
 
                   <input
                     type="text"
@@ -639,7 +639,9 @@ function App() {
               </div>
 
               <div className="input-group" style={{ marginTop: "0.5rem" }}>
-                <label>Active Vocabulary Deck Explorer</label>
+                <label htmlFor="vocabExplorerFilter">
+                  Active Vocabulary Deck Explorer
+                </label>
 
                 <select
                   id="vocabExplorerFilter"
@@ -661,7 +663,7 @@ function App() {
               </h3>
 
               <div className="input-group">
-                <label>Currency Format</label>
+                <label htmlFor="siteCurrencySelector">Currency Format</label>
 
                 <select id="siteCurrencySelector">
                   <option value="GHS">Ghana Cedi (GH₵)</option>
@@ -672,7 +674,9 @@ function App() {
               </div>
 
               <div className="input-group">
-                <label>Select Workspace Theme</label>
+                <label htmlFor="siteThemeSelector">
+                  Select Workspace Theme
+                </label>
 
                 <select id="siteThemeSelector">
                   <option value="light">Light Theme</option>

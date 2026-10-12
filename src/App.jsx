@@ -1,6 +1,9 @@
+import { useState } from "react";
+
 const switchTab = window.switchTab;
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <>
       <header className="app-header">
@@ -14,6 +17,7 @@ function App() {
         </div>
       </header>
 
+      
       <div className="navigation-tabs">
         <span className="app-logo">CF</span>
 
@@ -39,18 +43,66 @@ function App() {
         </button>
 
         <button
-          className="nav-tab"
+          className="nav-tab desktop-extra-tab"
           onClick={(event) => switchTab("adminView", event.currentTarget)}
         >
           Settings
         </button>
 
         <button
-          className="nav-tab"
+          className="nav-tab desktop-extra-tab"
           onClick={(event) => switchTab("helpView", event.currentTarget)}
         >
           Need Help
         </button>
+
+        <button
+          className="menu-toggle"
+          aria-label="Open navigation menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+
+        {menuOpen && (
+          <>
+            <div className="menu-overlay" onClick={() => setMenuOpen(false)} />
+
+            <aside className="side-panel">
+              <div className="side-panel-header">
+                <h3>More Options</h3>
+                <button
+                  className="side-panel-close"
+                  aria-label="Close navigation menu"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <button
+                className="side-panel-link"
+                onClick={() => {
+                  switchTab("adminView");
+                  setMenuOpen(false);
+                }}
+              >
+                ⚙️ Settings
+              </button>
+
+              <button
+                className="side-panel-link"
+                onClick={() => {
+                  switchTab("helpView");
+                  setMenuOpen(false);
+                }}
+              >
+                ❓ Need Help
+              </button>
+            </aside>
+          </>
+        )}
       </div>
 
       <div className="dashboard">
@@ -335,6 +387,16 @@ function App() {
             <h2 style={{ border: "none", marginBottom: "0.75rem" }}>
               Success Over Time (Historical Progress)
             </h2>
+
+            <div className="history-scroll-hint" role="note">
+              <span className="history-scroll-hint-icon" aria-hidden="true">
+                ↔
+              </span>
+              <span>
+                Swipe left or right to see all details, including liabilities,
+                income, expenses, net worth, and actions.
+              </span>
+            </div>
 
             <div className="table-responsive">
               <table>
@@ -879,7 +941,6 @@ function App() {
           </div>
         </div>
       </div>
-
       <footer className="app-footer">
         <p>
           &copy; <span id="footerYear"></span> CediFlow. All rights reserved.
@@ -892,4 +953,3 @@ function App() {
 }
 
 export default App;
-

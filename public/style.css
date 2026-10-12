@@ -848,16 +848,37 @@ tr.editing-row {
     padding: 0.75rem;
     gap: 1rem;
   }
+  
+  
   .navigation-tabs {
     top: 10px;
     width: calc(100% - 16px);
+    max-width: 960px;
     padding: 0.3rem;
     gap: 0.2rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+    white-space: normal;
+    border-radius: 16px;
+    transform: translateX(-50%);
   }
+
   .nav-tab {
-    padding: 0.5rem 0.4rem;
-    font-size: 0.75rem;
+    min-width: 0;
+    width: 100%;
+    padding: 0.55rem 0.15rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    flex: initial;
+    text-align: center;
+    justify-content: center;
   }
+
+
+  
 }
 
 #root {
@@ -931,6 +952,17 @@ tr.editing-row {
     min-width: 0;
     max-width: none;
   }
+
+  .site-confirm {
+    top: 15px;
+  }
+
+  .site-confirm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .site-confirm-actions button {
+    width: 100%;
 }
 
 .site-message-icon {
@@ -1097,16 +1129,228 @@ tr.editing-row {
   opacity: 0.85;
 }
 
+
+  .table-responsive {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive table {
+    min-width: 720px;
+  }
+
+
+}
+
+
+/* Mobile hint for the Historical Progress table */
+.history-scroll-hint {
+  display: none;
+}
+
 @media (max-width: 600px) {
-  .site-confirm {
-    top: 15px;
+  .history-scroll-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-inner);
+    background-color: var(--bg-input);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    line-height: 1.4;
   }
 
-  .site-confirm-actions {
-    flex-direction: column-reverse;
+  .history-scroll-hint-icon {
+    flex-shrink: 0;
+    color: var(--color-income);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+}
+
+/* Keep desktop navigation in one row */
+.navigation-tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-toggle {
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1.5rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* Side panel */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.side-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 85vw);
+  height: 100vh;
+  height: 100dvh;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border-left: 1px solid var(--border-color);
+  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  animation: sidePanelIn 0.25s ease-out;
+}
+
+.side-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.side-panel-close {
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.side-panel-link {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 10px;
+  text-align: left;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+@keyframes sidePanelIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* Desktop: show all five navigation options */
+@media (min-width: 641px) {
+  .navigation-tabs .nav-tab {
+    display: inline-flex;
   }
 
-  .site-confirm-actions button {
-    width: 100%;
+  .navigation-tabs .menu-toggle {
+    display: none;
+  }
+}
+
+/* Phones and small screens */
+@media (max-width: 640px) {
+  /* Keep only the three main tabs */
+  .navigation-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .navigation-tabs .nav-tab {
+    display: none;
+  }
+
+  .navigation-tabs .nav-tab:nth-of-type(1),
+  .navigation-tabs .nav-tab:nth-of-type(2),
+  .navigation-tabs .nav-tab:nth-of-type(3) {
+    display: inline-flex;
+  }
+
+  .navigation-tabs .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+}
+
+/* ========================================
+   CEDIFLOW RESPONSIVE NAVIGATION
+   ======================================== */
+
+/* Laptop and desktop: show all five tabs */
+@media (min-width: 769px) {
+  .navigation-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    overflow-x: visible;
+  }
+
+  .navigation-tabs .nav-tab {
+    display: inline-flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .navigation-tabs .menu-toggle {
+    display: none;
+  }
+}
+
+/* Tablet and mobile: three tabs plus hamburger */
+@media (max-width: 768px) {
+  .navigation-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 3px;
+    overflow: visible;
+  }
+
+  .navigation-tabs .nav-tab {
+    display: inline-flex;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.55rem 0.2rem;
+    font-size: 0.7rem;
+    white-space: normal;
+  }
+
+  .navigation-tabs .desktop-extra-tab {
+    display: none;
+  }
+
+  .navigation-tabs .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+}
+
+/* Ensure the hamburger is hidden on desktop */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none;
   }
 }

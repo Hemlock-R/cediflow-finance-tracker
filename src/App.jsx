@@ -840,93 +840,95 @@ function App() {
         <div id="helpView" className="view-panel">
           <h2>Welcome to CediFlow</h2>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-income)" }}>
-    What is CediFlow?
-  </h3>
-  <p>
-    CediFlow is your personal finance dashboard. Track your assets, 
-    liabilities, income, and expenses in one place. See your net worth 
-    and cash flow in real time, set savings goals, and track your 
-    progress over time. Everything stays securely in your browser.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-income)" }}>What is CediFlow?</h3>
+            <p>
+              CediFlow is your personal finance dashboard. Track your assets,
+              liabilities, income, and expenses in one place. See your net worth
+              and cash flow in real time, set savings goals, and track your
+              progress over time. Everything stays securely in your browser.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-income)" }}>
-    Quick Start Guide
-  </h3>
-  <ol className="help-list">
-    <li>
-      <strong>Enter your numbers:</strong> Go to the Metrics Dashboard and 
-      add your Assets, Liabilities, Income, Expenses, Money in Pocket, 
-      and Money Saved.
-    </li>
-    <li>
-      <strong>Use Smart Classifier:</strong> Just type an item name and 
-      amount, then click Classify and Add. We will sort it for you.
-    </li>
-    <li>
-      <strong>Log your day:</strong> Pick a date and click Log Entry to 
-      save your financial snapshot for that day.
-    </li>
-    <li>
-      <strong>Track your progress:</strong> All your entries will appear 
-      in Success Over Time where you can edit or delete them.
-    </li>
-  </ol>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-income)" }}>Quick Start Guide</h3>
+            <ol className="help-list">
+              <li>
+                <strong>Enter your numbers:</strong> Go to the Metrics Dashboard
+                and add your Assets, Liabilities, Income, Expenses, Money in
+                Pocket, and Money Saved.
+              </li>
+              <li>
+                <strong>Use Smart Classifier:</strong> Just type an item name
+                and amount, then click Classify and Add. We will sort it for
+                you.
+              </li>
+              <li>
+                <strong>Log your day:</strong> Pick a date and click Log Entry
+                to save your financial snapshot for that day.
+              </li>
+              <li>
+                <strong>Track your progress:</strong> All your entries will
+                appear in Success Over Time where you can edit or delete them.
+              </li>
+            </ol>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-asset)" }}>Metrics Dashboard</h3>
-  <p>
-    This is your main workspace. Enter your numbers and instantly see 
-    visual charts, your net worth, cash flow, and personalized tips from 
-    our Wealth-Building Roadmap Advisor.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-asset)" }}>Metrics Dashboard</h3>
+            <p>
+              This is your main workspace. Enter your numbers and instantly see
+              visual charts, your net worth, cash flow, and personalized tips
+              from our Wealth-Building Roadmap Advisor.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-income)" }}>Success & Goals</h3>
-  <p>
-    Get a financial score out of 100, see how your finances change day by day, 
-    and set targets like your ideal net worth or savings goal. Progress bars 
-    keep you motivated.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-income)" }}>Success & Goals</h3>
+            <p>
+              Get a financial score out of 100, see how your finances change day
+              by day, and set targets like your ideal net worth or savings goal.
+              Progress bars keep you motivated.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-expense)" }}>Calculator</h3>
-  <p>
-    A quick built-in calculator for any math you need while planning.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-expense)" }}>Calculator</h3>
+            <p>
+              A quick built-in calculator for any math you need while planning.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-income)" }}>Settings</h3>
-  <p>
-    Make CediFlow yours. Change currency to GHS, switch themes, manage your 
-    Smart Classifier words, and export or import your data.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-income)" }}>Settings</h3>
+            <p>
+              Make CediFlow yours. Change currency to GHS, switch themes, manage
+              your Smart Classifier words, and export or import your data.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-asset)" }}>Your Data & Privacy</h3>
-  <p>
-    Your data is stored only in your browser. Use Export Data in Settings 
-    to download a backup, and Import Data to restore it on another device.
-  </p>
-</div>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-asset)" }}>Your Data & Privacy</h3>
+            <p>
+              Your data is stored only in your browser. Use Export Data in
+              Settings to download a backup, and Import Data to restore it on
+              another device.
+            </p>
+          </div>
 
-<div className="help-card">
-  <h3 style={{ color: "var(--color-liability)" }}>Need More Help?</h3>
-  <p>
-    Have a question or idea? Send us feedback through our feedback form 
-    or email the HR-Financials team at{" "}
-    <a className="help-email" href="mailto:hrtechnologies003@gmail.com">
-      hrtechnologies003@gmail.com
-    </a>. We are here to help you build wealth.
-  </p>
+          <div className="help-card">
+            <h3 style={{ color: "var(--color-liability)" }}>Need More Help?</h3>
+            <p>
+              Have a question or idea? Send us feedback through our feedback
+              form or email the HR-Financials team at{" "}
+              <a
+                className="help-email"
+                href="mailto:hrtechnologies003@gmail.com"
+              >
+                hrtechnologies003@gmail.com
+              </a>
+              . We are here to help you build wealth.
+            </p>
           </div>
         </div>
       </div>
@@ -1035,33 +1037,33 @@ function App() {
       <div id="feedbackView" className="view-panel">
         <h2>Feedback</h2>
 
-<div className="help-card">
-  <h3>Help Us Improve CediFlow</h3>
+        <div className="help-card">
+          <h3>Help Us Improve CediFlow</h3>
 
-  <p>
-    We are building CediFlow for you. Have a suggestion, found a bug, 
-    or have a feature you want us to add?
-  </p>
+          <p>
+            We are building CediFlow for you. Have a suggestion, found a bug, or
+            have a feature you want us to add?
+          </p>
 
-  <p>We would love to hear from you. It takes less than 1 minute.</p>
+          <p>We would love to hear from you. It takes less than 1 minute.</p>
 
-  <button
-    type="button"
-    className="btn-save"
-    data-tally-open="Y5EAq6"
-    data-tally-width="300"
-    data-tally-emoji-text="👋"
-    data-tally-emoji-animation="wave"
-    data-tally-auto-close="2000"
-    data-tally-form-events-forwarding="1"
-  >
-    Share Feedback
-  </button>
+          <button
+            type="button"
+            className="btn-save"
+            data-tally-open="44Wq4d"
+            data-tally-width="300"
+            data-tally-emoji-text="👋"
+            data-tally-emoji-animation="wave"
+            data-tally-auto-close="2000"
+            data-tally-form-events-forwarding="1"
+          >
+            Share Feedback
+          </button>
 
-  <p style={{fontSize: '13px', marginTop: '12px', opacity: '0.7'}}>
-    Note: This form will never ask for your password or PIN. 
-    Please keep sensitive information private.
-  </p>
+          <p style={{ fontSize: "13px", marginTop: "12px", opacity: "0.7" }}>
+            Note: This form will never ask for your password or PIN. Please keep
+            sensitive information private.
+          </p>
         </div>
       </div>
 

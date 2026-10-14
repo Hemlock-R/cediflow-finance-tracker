@@ -17,7 +17,6 @@ function App() {
         </div>
       </header>
 
-      
       <div className="navigation-tabs">
         <span className="app-logo">CF</span>
 
@@ -100,6 +99,27 @@ function App() {
               >
                 ❓ Need Help
               </button>
+
+              <button
+                className="side-panel-link"
+                onClick={() => {
+                  switchTab("privacyView");
+                  setMenuOpen(false);
+                }}
+              >
+                🔒 Privacy Policy
+              </button>
+
+              <button
+                className="side-panel-link"
+                onClick={() => {
+                  switchTab("feedbackView");
+                  setMenuOpen(false);
+                }}
+              >
+                💬 Feedback
+              </button>
+              
             </aside>
           </>
         )}
@@ -941,12 +961,116 @@ function App() {
           </div>
         </div>
       </div>
+
+      <div id="privacyView" className="view-panel">
+        <h2>Privacy Policy</h2>
+
+        <p>
+          <strong>Last updated:</strong> October 2026
+        </p>
+
+        <h3>1. Information You Enter</h3>
+        <p>
+          CediFlow allows you to enter financial information, goals, transaction
+          history, and app preferences to provide its tracking features. Avoid
+          entering passwords, bank login details, or other highly sensitive
+          information.
+        </p>
+
+        <h3>2. How Your Data Is Stored</h3>
+        <p>
+          CediFlow's financial records and preferences are stored in your
+          browser's local storage. This data may remain on your device after you
+          close the app. Clearing browser data or using a different browser or
+          device may affect access to saved information.
+        </p>
+
+        <h3>3. Data Sharing</h3>
+        <p>
+          CediFlow's local storage is not itself a service that sends your
+          records to the app owner. However, website hosting, browser services,
+          or other integrations may process technical information. Do not assume
+          that all activity associated with visiting the website is entirely
+          local.
+        </p>
+
+        <h3>4. Security</h3>
+        <p>
+          Your data's security depends in part on your device, browser, and
+          account security. Keep your device protected and store exported backup
+          files somewhere safe.
+        </p>
+
+        <h3>5. Exporting and Deleting Data</h3>
+        <p>
+          Use CediFlow's available export feature to create a backup. Use the
+          app's reset controls or your browser's site-data settings to remove
+          locally stored information. Exported files must be deleted separately.
+        </p>
+
+        <h3>6. Feedback and Contact</h3>
+        <p>
+          If you send feedback by email, the information you include will be
+          sent through your email provider to hrtechnologies003@gmail.com. Avoid
+          including private financial records in feedback messages.
+        </p>
+
+        <h3>7. Policy Updates</h3>
+        <p>
+          This policy may be updated when CediFlow's features or data practices
+          change. Review this page periodically for changes.
+        </p>
+      </div>
+
+      <div id="feedbackView" className="view-panel">
+       
+<h2>Feedback</h2>
+
+<div className="help-card">
+  <h3>Help Us Improve CediFlow</h3>
+
+  <p>
+    Have a suggestion, found a problem, or want to request a feature?
+    We'd love to hear from you.
+  </p>
+
+  <p>
+    Share your feedback through our secure feedback form.
+  </p>
+
+  <button
+    type="button"
+    className="btn-save"
+    data-tally-open="Y5EAq6"
+    data-tally-width="300"
+    data-tally-emoji-text="👋"
+    data-tally-emoji-animation="wave"
+    data-tally-auto-close="2000"
+    data-tally-form-events-forwarding="1"
+  >
+    Submit Feedback
+  </button>
+
+  <p>
+    Please don't include passwords, bank login details,
+    or private financial records.
+  </p>
+</div>
+      </div>
+
       <footer className="app-footer">
         <p>
           &copy; <span id="footerYear"></span> CediFlow. All rights reserved.
           Built for personal financial health, wealth tracking, and long-term
           growth.
         </p>
+
+        <div className="footer-links">
+          <button onClick={() => switchTab("privacyView")}>
+            Privacy Policy
+          </button>
+          <button onClick={() => switchTab("feedbackView")}>Feedback</button>
+        </div>
       </footer>
     </>
   );

@@ -281,22 +281,23 @@ h3 {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.side-panel {
+  .side-panel {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 12px;
+  right: 12px;
   z-index: 1000;
 
-  width: min(320px, 85vw);
-  height: 100vh;
-  height: 100dvh;
-  padding: 1.25rem;
+  width: min(300px, calc(100vw - 24px));
+  height: auto;
+  height: 80vh;
+  max-height: calc(100dvh - 24px);
+  padding: 12px;
 
   overflow-y: auto;
 
   border-left: 1px solid var(--border-color);
-  background: var(--surface-color);
-  color: var(--text-primary);
+  background: #161d29;
+  color: #f0f6fc;
   box-shadow: -8px 0 25px rgba(0, 0, 0, 0.2);
 
   animation: sidePanelIn 0.25s ease-out;
@@ -320,15 +321,16 @@ h3 {
 .side-panel-link {
   display: block;
   width: 100%;
-  margin-bottom: 10px;
-  padding: 14px;
+  margin-bottom:6px;
+  padding: 5px 12px;
 
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-input);
   color: var(--text-primary);
 
-  font-size: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.2;
   text-align: left;
   cursor: pointer;
 }
@@ -1132,45 +1134,48 @@ tr.editing-row {
 .site-message {
   position: fixed;
   bottom: 24px;
+  left: 50%;
   z-index: 9999;
 
   display: flex;
   align-items: center;
   gap: 10px;
 
-  min-width: 600px;
-  max-width: 1000px;
-  padding: 12px 16px;
+  width: max-content;
+  min-width: 0;
+  max-width: min(520px, calc(100% - 32px));
+  padding: 10px 14px;
 
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 10px;
 
-  background-color: var(--surface-color);
-  color: var(--text-primary);
+  background-color: #202938;
+  color: #ffffff;
 
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
 
-  font-size: 0.88rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
 
   opacity: 0;
-  transform: translateY(15px);
+  transform: translate(-50%, 15px);
   pointer-events: none;
 
   transition:
-    opacity 0.5s ease,
+    opacity 0.3s ease,
     transform 0.2s ease;
 }
 
 .site-message.show {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate(-50%, 0);
   pointer-events: auto;
 }
 
 .site-message.success {
-  border-right: 3px solid var(--color-income);
-  border-left: 3px solid var(--color-income);
+  border: 1px solid rgba(46, 160, 67, 0.7);
+  border-left: 4px solid #3fb950;
+  background-color: #5f11c5;
 }
 
 .site-message.error {
@@ -1205,13 +1210,14 @@ tr.editing-row {
 }
 
 .site-message-content strong {
-  color: var(--text-primary);
-  font-size: 0.9rem;
+  color: #ffffff;
+  font-size: 0.88rem;
 }
 
 .site-message-content span {
-  color: var(--text-secondary);
-  font-size: 0.8rem;
+  color: #c9d1d9;
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 
 .site-message.success .site-message-icon {
@@ -1340,93 +1346,33 @@ tr.editing-row {
   opacity: 0.85;
 }
 
+
 /* ========================================
    RESPONSIVE BREAKPOINTS
-   Only three breakpoints:
-   1. 1023px and below: tablet/phone navigation
-   2. 600px and below: phone-specific refinements
-   3. 1444px and above: large desktop
+   1. 640px: phone-specific refinements
+   2. 1024px: tablet and smaller-screen layout
+   3. 1280px: desktop layout
+   4. 1536px: large desktop layout
    ======================================== */
 
-/* Tablets and phones */
-@media (max-width: 1023px) {
-  /* Navigation: three main tabs plus hamburger */
-  .navigation-tabs {
-    top: 10px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 3px;
 
-    width: calc(100% - 16px);
-    max-width: 960px;
-    padding: 6px;
-
-    overflow: visible;
-    white-space: normal;
-    border-radius: 16px;
-  }
-
-  .navigation-tabs .nav-tab {
-    display: inline-flex;
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    padding: 0.55rem 0.2rem;
-
-    font-size: 0.7rem;
-    line-height: 1.2;
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-
-  /* Settings and Need Help belong in the slide-in menu. */
-  .navigation-tabs .desktop-extra-tab {
-    display: none !important;
-  }
-
-  .navigation-tabs .menu-toggle {
-    display: inline-flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-  }
-
-  /* Keep content layouts comfortable on smaller screens. */
-  .visualization-layout,
-  .admin-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .classifier-grid,
-  .action-container {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .app-header {
-    margin-top: 65px;
-    padding: 0.6rem 0.9rem;
-  }
-
-  .dashboard {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    gap: 1rem;
-  }
+/* ========================================
+   PHONES — 640px AND BELOW
+   ======================================== */
+@media (max-width: 640px) {
+  .site-message {
+  left: 50%;
+  bottom: 16px;
+  width: max-content;
+  min-width: 0;
+  max-width: calc(100% - 24px);
+  padding: 10px 12px;
+  transform: translate(-50%, 15px);
 }
 
-/* Phones */
-@media (max-width: 600px) {
-  .site-message {
-    right: 16px;
-    bottom: 16px;
-    left: 16px;
-
-    min-width: 0;
-    max-width: none;
-    padding: 12px;
-  }
+.site-message.show {
+  transform: translate(-50%, 0);
+}
 
   .site-confirm {
     top: 15px;
@@ -1455,16 +1401,12 @@ tr.editing-row {
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
-
     margin: 0 0 0.75rem;
     padding: 0.65rem 0.75rem;
-
     border: 1px solid var(--border-color);
     border-radius: var(--radius-inner);
-
     background-color: var(--bg-input);
     color: var(--text-secondary);
-
     font-size: 0.8rem;
     line-height: 1.4;
   }
@@ -1482,8 +1424,86 @@ tr.editing-row {
   }
 }
 
-/* Large desktops */
-@media (min-width: 1444px) {
+
+/* ========================================
+   TABLETS AND SMALLER SCREENS — 1024px
+   ======================================== */
+@media (max-width: 1024px) {
+  .navigation-tabs {
+    top: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 3px;
+    width: calc(100% - 16px);
+    max-width: 960px;
+    padding: 6px;
+    overflow: visible;
+    white-space: normal;
+    border-radius: 16px;
+  }
+
+  .navigation-tabs .nav-tab {
+    display: inline-flex;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    padding: 0.55rem 0.2rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .navigation-tabs .desktop-extra-tab {
+    display: none !important;
+  }
+
+  .navigation-tabs .menu-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .visualization-layout,
+  .admin-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .classifier-grid,
+  .action-container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-header {
+    margin-top: 65px;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .dashboard {
+    margin-top: 1rem;
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+}
+
+
+/* ========================================
+   DESKTOP — 1280px AND ABOVE
+   ======================================== */
+@media (min-width: 1280px) {
+  .navigation-tabs {
+    max-width: 1100px;
+  }
+}
+
+
+/* ========================================
+   LARGE DESKTOP — 1536px AND ABOVE
+   ======================================== */
+@media (min-width: 1536px) {
   .navigation-tabs {
     max-width: 1200px;
   }
@@ -1492,5 +1512,53 @@ tr.editing-row {
   .app-footer,
   .dashboard {
     max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
   }
+}
+
+/* FOOTER LINKS */
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.65rem;
+}
+
+.footer-links button {
+  padding: 0.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.footer-links button:hover {
+  color: var(--color-income);
+  text-decoration: underline;
+}
+
+.side-panel-link {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Privacy Policy and Feedback layout fix */
+#privacyView,
+#feedbackView {
+  width: calc(100% - 2rem);
+  max-width: 1000px;
+  box-sizing: border-box;
+  margin: 1rem auto 0;
+}
+
+/* Keep the footer close to the active page */
+.app-footer {
+  margin-top: 1rem;
 }

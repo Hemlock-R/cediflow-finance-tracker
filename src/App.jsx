@@ -87,7 +87,7 @@ function App() {
                   setMenuOpen(false);
                 }}
               >
-                ⚙️ Settings
+                Settings
               </button>
 
               <button
@@ -97,7 +97,7 @@ function App() {
                   setMenuOpen(false);
                 }}
               >
-                ❓ Need Help
+                Need Help
               </button>
 
               <button
@@ -107,7 +107,7 @@ function App() {
                   setMenuOpen(false);
                 }}
               >
-                🔒 Privacy Policy
+                Privacy Policy
               </button>
 
               <button
@@ -117,7 +117,7 @@ function App() {
                   setMenuOpen(false);
                 }}
               >
-                💬 Feedback
+                Feedback
               </button>
             </aside>
           </>

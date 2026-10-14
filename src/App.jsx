@@ -119,7 +119,6 @@ function App() {
               >
                 💬 Feedback
               </button>
-              
             </aside>
           </>
         )}
@@ -839,204 +838,212 @@ function App() {
 
         {/* HELP VIEW */}
         <div id="helpView" className="view-panel">
-          <h2>Welcome to CediFlow-Financial-Tracker</h2>
+          <h2>Welcome to CediFlow</h2>
 
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>
-              What is CediFlow-Financial-Tracker?
-            </h3>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-income)" }}>
+    What is CediFlow?
+  </h3>
+  <p>
+    CediFlow is your personal finance dashboard. Track your assets, 
+    liabilities, income, and expenses in one place. See your net worth 
+    and cash flow in real time, set savings goals, and track your 
+    progress over time. Everything stays securely in your browser.
+  </p>
+</div>
 
-            <p>
-              CediFlow-Financial-Tracker is a personal finance dashboard that
-              helps you track your assets, liabilities, income, and expenses in
-              one place. It calculates your net worth and net cash flow in real
-              time, lets you set financial goals, and keeps a running history of
-              your progress over time. All data is stored securely in your own
-              browser.
-            </p>
-          </div>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-income)" }}>
+    Quick Start Guide
+  </h3>
+  <ol className="help-list">
+    <li>
+      <strong>Enter your numbers:</strong> Go to the Metrics Dashboard and 
+      add your Assets, Liabilities, Income, Expenses, Money in Pocket, 
+      and Money Saved.
+    </li>
+    <li>
+      <strong>Use Smart Classifier:</strong> Just type an item name and 
+      amount, then click Classify and Add. We will sort it for you.
+    </li>
+    <li>
+      <strong>Log your day:</strong> Pick a date and click Log Entry to 
+      save your financial snapshot for that day.
+    </li>
+    <li>
+      <strong>Track your progress:</strong> All your entries will appear 
+      in Success Over Time where you can edit or delete them.
+    </li>
+  </ol>
+</div>
 
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>
-              Getting Started - Quick Start
-            </h3>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-asset)" }}>Metrics Dashboard</h3>
+  <p>
+    This is your main workspace. Enter your numbers and instantly see 
+    visual charts, your net worth, cash flow, and personalized tips from 
+    our Wealth-Building Roadmap Advisor.
+  </p>
+</div>
 
-            <ol className="help-list">
-              <li>
-                <strong>Enter your numbers:</strong> On the{" "}
-                <em>Metrics Dashboard</em>, fill in your Total Assets,
-                Liabilities, Income, Expenses, Money in Pocket, and Money Saved.
-              </li>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-income)" }}>Success & Goals</h3>
+  <p>
+    Get a financial score out of 100, see how your finances change day by day, 
+    and set targets like your ideal net worth or savings goal. Progress bars 
+    keep you motivated.
+  </p>
+</div>
 
-              <li>
-                <strong>Use the Smart Classifier:</strong> Type an item name and
-                amount and click <em>Classify and Add</em>. The app
-                automatically sorts it into the right category.
-              </li>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-expense)" }}>Calculator</h3>
+  <p>
+    A quick built-in calculator for any math you need while planning.
+  </p>
+</div>
 
-              <li>
-                <strong>Log your day:</strong> Pick a date and click{" "}
-                <em>Log Entry for Selected Date</em> to save a snapshot of your
-                financial position.
-              </li>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-income)" }}>Settings</h3>
+  <p>
+    Make CediFlow yours. Change currency to GHS, switch themes, manage your 
+    Smart Classifier words, and export or import your data.
+  </p>
+</div>
 
-              <li>
-                <strong>Review your history:</strong> Your saved entries appear
-                in the <em>Success Over Time</em> table, where you can edit or
-                delete them.
-              </li>
-            </ol>
-          </div>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-asset)" }}>Your Data & Privacy</h3>
+  <p>
+    Your data is stored only in your browser. Use Export Data in Settings 
+    to download a backup, and Import Data to restore it on another device.
+  </p>
+</div>
 
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-asset)" }}>Metrics Dashboard</h3>
-
-            <p>
-              This is your main workspace. Enter your financial values and
-              instantly see visual bars, a balance sketch, your net worth, and
-              net cash flow. The <em>Wealth-Building Roadmap Advisor</em> gives
-              you personalized tips based on your numbers.
-            </p>
-          </div>
-
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>
-              Success &amp; Goals
-            </h3>
-
-            <p>
-              Track your financial standing with a score out of 100, view your
-              day-over-day shifts, and set target objectives like a target net
-              worth or savings goal. Progress bars show how close you are to
-              reaching them.
-            </p>
-          </div>
-
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-expense)" }}>Calculator</h3>
-
-            <p>
-              A handy built-in calculator for any quick math you need while
-              planning your finances.
-            </p>
-          </div>
-
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>Settings</h3>
-
-            <p>
-              Customize the app: manage the Smart Classifier vocabulary, change
-              currency, and theme. You can also export/import your preferences
-              and financial data.
-            </p>
-          </div>
-
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-asset)" }}>Data &amp; Privacy</h3>
-
-            <p>
-              Everything is stored in your browser's local storage. Use the{" "}
-              <em>Export Data</em> button in Settings to download a backup, and{" "}
-              <em>Import Data</em> to restore it on another device or browser.
-            </p>
-          </div>
-
-          <div className="help-card">
-            <h3 style={{ color: "var(--color-liability)" }}>
-              ❓ Need More Help?
-            </h3>
-
-            <p>
-              If you have any questions or feedback, email the HR-Financials
-              team at{" "}
-              <a
-                className="help-email"
-                href="mailto:hrtechnologies003@gmail.com"
-              >
-                hrtechnologies003@gmail.com
-              </a>{" "}
-              — tap the address and it will open your email app to send us a
-              message. We're here to help you build and protect your wealth.
-            </p>
+<div className="help-card">
+  <h3 style={{ color: "var(--color-liability)" }}>Need More Help?</h3>
+  <p>
+    Have a question or idea? Send us feedback through our feedback form 
+    or email the HR-Financials team at{" "}
+    <a className="help-email" href="mailto:hrtechnologies003@gmail.com">
+      hrtechnologies003@gmail.com
+    </a>. We are here to help you build wealth.
+  </p>
           </div>
         </div>
       </div>
 
       <div id="privacyView" className="view-panel">
         <h2>Privacy Policy</h2>
-
         <p>
-          <strong>Last updated:</strong> October 2026
+          <strong>Last updated:</strong> October 14, 2026
         </p>
 
-        <h3>1. Information You Enter</h3>
         <p>
-          CediFlow allows you to enter financial information, goals, transaction
-          history, and app preferences to provide its tracking features. Avoid
-          entering passwords, bank login details, or other highly sensitive
+          CediFlow respects your privacy. This policy explains what information
+          you enter, how it is stored, and how you can manage it.
+        </p>
+
+        <h3>1. Information We Collect</h3>
+        <p>
+          CediFlow allows you to enter financial records, savings goals,
+          transaction history, and preferences. This information is used to
+          provide financial tracking and budgeting features.
+        </p>
+        <p>
+          All records and preferences are stored in your browser's local
+          storage. This means the information stays on your device and remains
+          available after you close the app.
+        </p>
+        <p>
+          When you visit the website, hosting providers and browser services may
+          process standard technical information such as device type and browser
+          version.
+        </p>
+        <p>
+          If you contact us by email at hrtechnologies003@gmail.com, the
+          information you include in your message will be sent through your
+          email provider.
+        </p>
+        <p>
+          <strong>
+            Please do not enter bank login details, Mobile Money PINs,
+            passwords, or Ghana Card numbers into CediFlow.
+          </strong>
+        </p>
+
+        <h3>2. How We Use Your Information</h3>
+        <p>
+          Your information is used only to support CediFlow's core features,
+          including tracking your finances and saving your preferences.
+        </p>
+        <p>
+          Information in local storage does not automatically transfer to the
+          app owner. It remains on your device until you delete it.
+        </p>
+        <p>
+          Technical information related to website hosting and browser services
+          is processed separately to keep the website functional.
+        </p>
+
+        <h3>3. Your Rights and Choices</h3>
+        <h4>Access and Backup</h4>
+        <p>
+          You can use the export feature inside CediFlow to create a backup of
+          your records. Store any exported files in a secure location.
+        </p>
+
+        <h4>Deletion</h4>
+        <p>
+          You can delete your information at any time using the reset controls
+          in CediFlow or by clearing your browser's site data. Please note that
+          clearing browser data will remove your saved records and preferences.
+        </p>
+        <p>
+          Exported backup files are stored separately. You will need to delete
+          them manually.
+        </p>
+
+        <h4>Security</h4>
+        <p>
+          Protecting your information also depends on your device and browser
+          security. Keep your device locked and avoid sharing access with
+          others.
+        </p>
+
+        <h4>Contact</h4>
+        <p>
+          For privacy questions or feedback, contact us at
+          hrtechnologies003@gmail.com. Do not include sensitive information such
+          as passwords or bank details in your email.
+        </p>
+
+        <h3>4. Storage Information</h3>
+        <p>
+          Records stored in local storage may not be available if you switch to
+          a different browser or device. Clearing browser data may also remove
+          your records. Keep a backup if you need to preserve important
           information.
         </p>
 
-        <h3>2. How Your Data Is Stored</h3>
+        <h3>5. Changes to This Policy</h3>
         <p>
-          CediFlow's financial records and preferences are stored in your
-          browser's local storage. This data may remain on your device after you
-          close the app. Clearing browser data or using a different browser or
-          device may affect access to saved information.
-        </p>
-
-        <h3>3. Data Sharing</h3>
-        <p>
-          CediFlow's local storage is not itself a service that sends your
-          records to the app owner. However, website hosting, browser services,
-          or other integrations may process technical information. Do not assume
-          that all activity associated with visiting the website is entirely
-          local.
-        </p>
-
-        <h3>4. Security</h3>
-        <p>
-          Your data's security depends in part on your device, browser, and
-          account security. Keep your device protected and store exported backup
-          files somewhere safe.
-        </p>
-
-        <h3>5. Exporting and Deleting Data</h3>
-        <p>
-          Use CediFlow's available export feature to create a backup. Use the
-          app's reset controls or your browser's site-data settings to remove
-          locally stored information. Exported files must be deleted separately.
-        </p>
-
-        <h3>6. Feedback and Contact</h3>
-        <p>
-          If you send feedback by email, the information you include will be
-          sent through your email provider to hrtechnologies003@gmail.com. Avoid
-          including private financial records in feedback messages.
-        </p>
-
-        <h3>7. Policy Updates</h3>
-        <p>
-          This policy may be updated when CediFlow's features or data practices
-          change. Review this page periodically for changes.
+          We may update this policy when CediFlow features or data practices
+          change. Any changes will be published on this page. Please review this
+          page periodically.
         </p>
       </div>
 
       <div id="feedbackView" className="view-panel">
-       
-<h2>Feedback</h2>
+        <h2>Feedback</h2>
 
 <div className="help-card">
   <h3>Help Us Improve CediFlow</h3>
 
   <p>
-    Have a suggestion, found a problem, or want to request a feature?
-    We'd love to hear from you.
+    We are building CediFlow for you. Have a suggestion, found a bug, 
+    or have a feature you want us to add?
   </p>
 
-  <p>
-    Share your feedback through our secure feedback form.
-  </p>
+  <p>We would love to hear from you. It takes less than 1 minute.</p>
 
   <button
     type="button"
@@ -1048,14 +1055,14 @@ function App() {
     data-tally-auto-close="2000"
     data-tally-form-events-forwarding="1"
   >
-    Submit Feedback
+    Share Feedback
   </button>
 
-  <p>
-    Please don't include passwords, bank login details,
-    or private financial records.
+  <p style={{fontSize: '13px', marginTop: '12px', opacity: '0.7'}}>
+    Note: This form will never ask for your password or PIN. 
+    Please keep sensitive information private.
   </p>
-</div>
+        </div>
       </div>
 
       <footer className="app-footer">

@@ -336,10 +336,12 @@ h3 {
   flex-direction: column;
   gap: 1.25rem;
 
-  width: 100%;
-  max-width: 1000px;
-  min-width: 0;
-  margin: 1rem 0.5rem 2rem;
+ width: calc(100% - 3rem);
+max-width: 1200px;
+margin-left: auto;
+margin-right: auto;
+min-width: 0;
+margin: 1rem auto 2rem;
   padding: 1.25rem;
 
   border: 1px solid var(--border-color);
@@ -1415,14 +1417,11 @@ tr.editing-row {
 }
 
 
-@media (min-width: 1536px) {
-  .navigation-tabs {
-    max-width: 1200px;
-  }
-
+@media (min-width: 1440px) {
   .app-header,
-  .app-footer,
-  .dashboard {
+  .dashboard,
+  .app-footer {
+    width: calc(100% - 3rem);
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;

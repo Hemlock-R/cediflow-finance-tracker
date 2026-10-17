@@ -121,7 +121,6 @@ const defaultVocabulary = {
 
 const defaultPreferences = {
   theme: "dark",
-
   currency: "GHS",
 };
 

@@ -1,8 +1,6 @@
 @import "tailwindcss";
 
-/* ========================================
-   CEDIFLOW — GLOBAL VARIABLES
-   ======================================== */
+/*CEDIFLOW — overall design*/
 
 :root {
   --bg-color: #0a0c10;
@@ -14,13 +12,12 @@
   --radius-main: 12px;
   --radius-inner: 6px;
 
-  /* Metric Colors */
+  /*Metric dashboard Colors*/
   --color-asset: #238636;
   --color-income: #58a6ff;
   --color-expense: #d29922;
   --color-liability: #da3633;
 
-  /* Dynamic animation tokens */
   --flex-income: 1;
   --flex-expenses: 1;
   --flex-split: 1;
@@ -28,9 +25,6 @@
   --flex-liabilities: 1;
 }
 
-/* ========================================
-   GLOBAL RESET
-   ======================================== */
 
 * {
   box-sizing: border-box;
@@ -96,14 +90,9 @@ h3 {
   font-size: 1rem;
 }
 
-.tailwind-test {
-  @apply text-center;
-}
 
-/* ========================================
-   APP HEADER, LOGO AND FOOTER
-   ======================================== */
 
+/*APP HEADER, LOGO AND FOOTER*/
 .app-header {
   width: 100%;
   max-width: 1000px;
@@ -120,6 +109,7 @@ h3 {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  
 }
 
 .app-logo {
@@ -159,16 +149,19 @@ h3 {
 }
 
 .app-footer {
+  gap: 1.25rem;
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto 1.5rem;
-  padding: 0.9rem 1.25rem;
+  min-width: 0;
+  margin: 1rem 0.5rem 2rem;
+  padding: 1.25rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
   text-align: center;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
+  margin-top: auto;
 }
 
 .app-footer p {
@@ -178,11 +171,7 @@ h3 {
   line-height: 1.5;
 }
 
-/* ========================================
-   MAIN NAVIGATION
-   Desktop: all five tabs
-   Tablet and phone: three tabs + hamburger
-   ======================================== */
+/*MAIN NAVIGATION*/
 
 .navigation-tabs {
   position: fixed;
@@ -251,7 +240,7 @@ h3 {
   text-shadow: 0 0 8px rgba(88, 166, 255, 0.6);
 }
 
-/* Hidden on desktop; enabled at tablet and phone sizes. */
+
 .menu-toggle {
   display: none;
   flex-shrink: 0;
@@ -270,9 +259,6 @@ h3 {
   cursor: pointer;
 }
 
-/* ========================================
-   SLIDE-IN MENU
-   ======================================== */
 
 .menu-overlay {
   position: fixed;
@@ -345,10 +331,6 @@ h3 {
   }
 }
 
-/* ========================================
-   DASHBOARD AND VIEW PANELS
-   ======================================== */
-
 .dashboard {
   display: flex;
   flex-direction: column;
@@ -389,10 +371,6 @@ h3 {
   opacity: 1;
   transform: translateY(0);
 }
-
-/* ========================================
-   INPUTS AND FORMS
-   ======================================== */
 
 .inputs-grid {
   display: grid;
@@ -466,10 +444,6 @@ select:focus {
   background-color: var(--bg-input);
 }
 
-/* ========================================
-   BUTTONS
-   ======================================== */
-
 .btn-save {
   display: inline-flex;
   align-items: center;
@@ -533,10 +507,6 @@ select:focus {
   border-color: var(--color-income);
   color: var(--color-income);
 }
-
-/* ========================================
-   VISUALIZATION LAYOUT
-   ======================================== */
 
 .visualization-layout {
   display: grid;
@@ -662,10 +632,6 @@ select:focus {
   background-color: #a855f7;
 }
 
-/* ========================================
-   SKETCH TABLE
-   ======================================== */
-
 .sketch-table-container {
   display: flex;
   flex-direction: column;
@@ -771,10 +737,6 @@ select:focus {
   color: var(--color-liability);
 }
 
-/* ========================================
-   RESULTS AND HISTORY
-   ======================================== */
-
 .results-section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -872,14 +834,9 @@ tr.editing-row {
   box-shadow: 0 0 6px rgba(88, 166, 255, 0.4);
 }
 
-/* Mobile scrolling hint for Historical Progress */
 .history-scroll-hint {
   display: none;
 }
-
-/* ========================================
-   BLUEPRINT SECTION
-   ======================================== */
 
 .blueprint-section {
   width: 100%;
@@ -915,10 +872,6 @@ tr.editing-row {
   font-size: 0.85rem;
   line-height: 1.5;
 }
-
-/* ========================================
-   SETTINGS / ADMIN
-   ======================================== */
 
 .admin-grid {
   display: grid;
@@ -981,10 +934,6 @@ tr.editing-row {
   font-weight: bold;
   cursor: pointer;
 }
-
-/* ========================================
-   CALCULATOR
-   ======================================== */
 
 .calc-wrapper {
   width: 100%;
@@ -1057,20 +1006,12 @@ tr.editing-row {
   color: var(--color-liability);
 }
 
-/* ========================================
-   SUCCESS METRICS
-   ======================================== */
-
 .success-metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   width: 100%;
 }
-
-/* ========================================
-   HELP SECTION
-   ======================================== */
 
 .help-card {
   display: flex;
@@ -1126,10 +1067,6 @@ tr.editing-row {
   color: #3182ce;
   text-decoration: none;
 }
-
-/* ========================================
-   SITE NOTIFICATIONS
-   ======================================== */
 
 .site-message {
   position: fixed;
@@ -1234,10 +1171,6 @@ tr.editing-row {
   background-color: rgba(210, 153, 34, 0.15);
   color: #d29922;
 }
-
-/* ========================================
-   CONFIRMATION DIALOG
-   ======================================== */
 
 .site-confirm {
   position: fixed;
@@ -1347,18 +1280,6 @@ tr.editing-row {
 }
 
 
-/* ========================================
-   RESPONSIVE BREAKPOINTS
-   1. 640px: phone-specific refinements
-   2. 1024px: tablet and smaller-screen layout
-   3. 1280px: desktop layout
-   4. 1536px: large desktop layout
-   ======================================== */
-
-
-/* ========================================
-   PHONES — 640px AND BELOW
-   ======================================== */
 @media (max-width: 640px) {
   .site-message {
   left: 50%;
@@ -1425,9 +1346,6 @@ tr.editing-row {
 }
 
 
-/* ========================================
-   TABLETS AND SMALLER SCREENS — 1024px
-   ======================================== */
 @media (max-width: 1024px) {
   .navigation-tabs {
     top: 10px;
@@ -1490,9 +1408,6 @@ tr.editing-row {
 }
 
 
-/* ========================================
-   DESKTOP — 1280px AND ABOVE
-   ======================================== */
 @media (min-width: 1280px) {
   .navigation-tabs {
     max-width: 1100px;
@@ -1500,9 +1415,6 @@ tr.editing-row {
 }
 
 
-/* ========================================
-   LARGE DESKTOP — 1536px AND ABOVE
-   ======================================== */
 @media (min-width: 1536px) {
   .navigation-tabs {
     max-width: 1200px;
@@ -1549,7 +1461,7 @@ tr.editing-row {
   cursor: pointer;
 }
 
-/* Privacy Policy and Feedback layout fix */
+
 #privacyView,
 #feedbackView {
   width: calc(100% - 2rem);
@@ -1558,7 +1470,3 @@ tr.editing-row {
   margin: 1rem auto 0;
 }
 
-/* Keep the footer close to the active page */
-.app-footer {
-  margin-top: 1rem;
-}

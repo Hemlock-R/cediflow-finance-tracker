@@ -847,33 +847,38 @@ function App() {
           <div className="help-card">
             <h3 style={{ color: "var(--color-income)" }}>What is CediFlow?</h3>
             <p>
-              CediFlow is your personal finance dashboard. Track your assets,
-              liabilities, income, and expenses in one place. See your net worth
-              and cash flow in real time, set savings goals, and track your
-              progress over time. Everything stays securely in your browser.
+              CediFlow helps you keep track of your finances in one place. You
+              can record what you own, what you owe, how much you earn, and what
+              you spend. The dashboard brings these figures together so you can
+              follow your net worth, monitor your cash flow, and see how your
+              financial position changes over time.
             </p>
           </div>
 
           <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>Quick Start Guide</h3>
+            <h3 style={{ color: "var(--color-income)" }}>Getting Started</h3>
             <ol className="help-list">
               <li>
-                <strong>Enter your numbers:</strong> Go to the Metrics Dashboard
-                and add your Assets, Liabilities, Income, Expenses, Money in
-                Pocket, and Money Saved.
+                <strong>Enter your financial details:</strong> Open the Metrics
+                Dashboard and fill in your assets, liabilities, income,
+                expenses, and money saved. Include money in your pocket wherever
+                the app provides that field.
               </li>
               <li>
-                <strong>Use Smart Classifier:</strong> Just type an item name
-                and amount, then click Classify and Add. We will sort it for
-                you.
+                <strong>Try the Smart Classifier:</strong> Enter an item or
+                transaction description and its amount, then select Classify and
+                Add. CediFlow will use the description to help sort it into a
+                financial category.
               </li>
               <li>
-                <strong>Log your day:</strong> Pick a date and click Log Entry
-                to save your financial snapshot for that day.
+                <strong>Save a daily record:</strong> Choose the date you want
+                to record and select Log Entry for Selected Date. This saves a
+                snapshot of your financial figures for that date.
               </li>
               <li>
-                <strong>Track your progress:</strong> All your entries will
-                appear in Success Over Time where you can edit or delete them.
+                <strong>Review your history:</strong> Visit Success Over Time on
+                the dashboard to look back at saved entries. Depending on the
+                available controls, you can also edit or delete records.
               </li>
             </ol>
           </div>
@@ -881,160 +886,206 @@ function App() {
           <div className="help-card">
             <h3 style={{ color: "var(--color-asset)" }}>Metrics Dashboard</h3>
             <p>
-              This is your main workspace. Enter your numbers and instantly see
-              visual charts, your net worth, cash flow, and personalized tips
-              from our Wealth-Building Roadmap Advisor.
+              This is where you enter your figures and check your current
+              financial position. It displays your net worth and cash flow,
+              along with visual summaries of your finances and suggestions from
+              the Wealth-Building Roadmap Advisor.
             </p>
           </div>
 
           <div className="help-card">
-            <h3 style={{ color: "var(--color-income)" }}>Success & Goals</h3>
+            <h3 style={{ color: "var(--color-income)" }}>
+              Success &amp; Goals
+            </h3>
             <p>
-              Get a financial score out of 100, see how your finances change day
-              by day, and set targets like your ideal net worth or savings goal.
-              Progress bars keep you motivated.
+              Use this section to check changes in your financial figures, view
+              your financial standing score, and set targets for net worth,
+              savings, or expenses. Your saved records help you compare progress
+              over time.
             </p>
           </div>
 
           <div className="help-card">
             <h3 style={{ color: "var(--color-expense)" }}>Calculator</h3>
             <p>
-              A quick built-in calculator for any math you need while planning.
+              Use the built-in calculator for quick sums and other basic
+              calculations while reviewing your finances or planning a budget.
             </p>
           </div>
 
           <div className="help-card">
             <h3 style={{ color: "var(--color-income)" }}>Settings</h3>
             <p>
-              Make CediFlow yours. Change currency to GHS, switch themes, manage
-              your Smart Classifier words, and export or import your data.
+              Adjust your preferred currency and theme, manage words used by the
+              Smart Classifier, and import or export your financial records.
+              Export a backup before changing devices or clearing your browser
+              data.
             </p>
           </div>
 
           <div className="help-card">
-            <h3 style={{ color: "var(--color-asset)" }}>Your Data & Privacy</h3>
+            <h3 style={{ color: "var(--color-asset)" }}>
+              Your Data and Privacy
+            </h3>
             <p>
-              Your data is stored only in your browser. Use Export Data in
-              Settings to download a backup, and Import Data to restore it on
-              another device.
+              CediFlow stores your financial records and preferences in your
+              browser's local storage. This means they may not follow you to
+              another browser or device automatically. You can export your
+              records from Settings to keep a separate backup. Read the Privacy
+              Policy for more information.
             </p>
           </div>
 
           <div className="help-card">
             <h3 style={{ color: "var(--color-liability)" }}>Need More Help?</h3>
             <p>
-              Have a question or idea? Send us feedback through our feedback
-              form or email the HR-Financials team at{" "}
+              If something isn't working as expected, or you have an idea that
+              could make CediFlow better, we'd like to hear from you. Use the
+              Feedback section to send a suggestion or report a problem. You can
+              also email the HR-Financials team at{" "}
               <a
                 className="help-email"
                 href="mailto:hrtechnologies003@gmail.com"
               >
                 hrtechnologies003@gmail.com
               </a>
-              . We are here to help you build wealth.
+              .
             </p>
           </div>
         </div>
 
         <div id="privacyView" className="view-panel">
           <h2>Privacy Policy</h2>
+
           <p>
-            <strong>Last updated:</strong> October 14, 2026
+            <strong>Last updated:</strong> October 17, 2026
           </p>
 
           <p>
-            CediFlow respects your privacy. This policy explains what
-            information you enter, how it is stored, and how you can manage it.
+            This policy explains what happens to the information you enter into
+            CediFlow, where it is stored, and the choices you have for managing
+            it.
           </p>
 
-          <h3>1. Information We Collect</h3>
+          <h3>1. Information You Enter</h3>
           <p>
-            CediFlow allows you to enter financial records, savings goals,
-            transaction history, and preferences. This information is used to
-            provide financial tracking and budgeting features.
+            You can enter financial figures, saved records, savings goals, and
+            app preferences in CediFlow. The app uses these details to display
+            your financial summaries, track changes, and support its budgeting
+            and goal-setting features.
           </p>
+
           <p>
-            All records and preferences are stored in your browser's local
-            storage. This means the information stays on your device and remains
-            available after you close the app.
+            CediFlow is designed to save its financial records and preferences
+            in your browser's local storage. These records are generally kept on
+            the device and browser where you use the app. They are not
+            automatically synced to another device.
           </p>
+
           <p>
-            When you visit the website, hosting providers and browser services
-            may process standard technical information such as device type and
-            browser version.
+            Website hosting services may process technical information needed to
+            deliver and maintain the site, such as information about requests
+            made to the server. The exact information collected depends on the
+            hosting provider and its configuration.
           </p>
+
           <p>
-            If you contact us by email at hrtechnologies003@gmail.com, the
-            information you include in your message will be sent through your
-            email provider.
+            If you email us at{" "}
+            <a href="mailto:hrtechnologies003@gmail.com" className="help-email">
+              hrtechnologies003@gmail.com
+            </a>
+            , your message is handled by your email provider and the recipient's
+            email service.
           </p>
+
           <p>
             <strong>
-              Please do not enter bank login details, Mobile Money PINs,
-              passwords, or Ghana Card numbers into CediFlow.
+              Do not enter bank login details, Mobile Money PINs, passwords, or
+              Ghana Card numbers into CediFlow.
             </strong>
           </p>
 
-          <h3>2. How We Use Your Information</h3>
+          <h3>2. How Your Information Is Used</h3>
           <p>
-            Your information is used only to support CediFlow's core features,
-            including tracking your finances and saving your preferences.
-          </p>
-          <p>
-            Information in local storage does not automatically transfer to the
-            app owner. It remains on your device until you delete it.
-          </p>
-          <p>
-            Technical information related to website hosting and browser
-            services is processed separately to keep the website functional.
+            Information you enter is used to provide the features you choose to
+            use, such as financial calculations, saved progress, personal
+            targets, and app preferences.
           </p>
 
-          <h3>3. Your Rights and Choices</h3>
+          <p>
+            Information saved in your browser's local storage is not, by itself,
+            a copy sent to the app owner. However, this does not mean that every
+            part of your visit is necessarily private from your hosting provider
+            or from external services you choose to use.
+          </p>
+
+          <p>
+            When you submit the feedback form, the information you provide is
+            processed by the form service used by CediFlow. That service may
+            handle submissions according to its own privacy policy and terms.
+          </p>
+
+          <h3>3. Managing Your Information</h3>
+
           <h4>Access and Backup</h4>
           <p>
-            You can use the export feature inside CediFlow to create a backup of
-            your records. Store any exported files in a secure location.
+            Use Export Data in Settings to download a copy of your records when
+            the export feature is available. Keep exported files somewhere
+            secure, especially if they contain personal financial information.
           </p>
 
-          <h4>Deletion</h4>
+          <h4>Deleting Records</h4>
           <p>
-            You can delete your information at any time using the reset controls
-            in CediFlow or by clearing your browser's site data. Please note
-            that clearing browser data will remove your saved records and
-            preferences.
-          </p>
-          <p>
-            Exported backup files are stored separately. You will need to delete
-            them manually.
+            You can use CediFlow's reset controls or clear the site's data
+            through your browser settings to remove locally saved information.
+            Be careful: clearing site data may permanently remove records and
+            preferences that you have not backed up.
           </p>
 
-          <h4>Security</h4>
           <p>
-            Protecting your information also depends on your device and browser
-            security. Keep your device locked and avoid sharing access with
-            others.
+            Exported files are stored separately from CediFlow. Removing data
+            from your browser will not delete those files; you must remove them
+            yourself if you no longer need them.
           </p>
 
-          <h4>Contact</h4>
+          <h4>Keeping Your Information Safe</h4>
           <p>
-            For privacy questions or feedback, contact us at
-            hrtechnologies003@gmail.com. Do not include sensitive information
-            such as passwords or bank details in your email.
+            Your device and browser play an important role in protecting locally
+            stored records. Use a device you trust, keep it protected with a
+            screen lock, and avoid giving other people access to your browser
+            profile.
           </p>
 
-          <h3>4. Storage Information</h3>
+          <h3>4. Browser and Device Changes</h3>
           <p>
-            Records stored in local storage may not be available if you switch
-            to a different browser or device. Clearing browser data may also
-            remove your records. Keep a backup if you need to preserve important
-            information.
+            Your saved records may not be available if you switch browsers, use
+            a different device, or clear your browser's site data. Export a
+            backup before making changes if you need to keep your information.
           </p>
 
-          <h3>5. Changes to This Policy</h3>
+          <h3>5. External Services</h3>
           <p>
-            We may update this policy when CediFlow features or data practices
-            change. Any changes will be published on this page. Please review
-            this page periodically.
+            CediFlow uses an external service to display its feedback form. If
+            you choose to submit feedback, the details you provide are handled
+            by that service. Check the service's own privacy information if you
+            want to know more about how it handles submissions.
+          </p>
+
+          <h3>6. Changes to This Policy</h3>
+          <p>
+            This policy may change if CediFlow's features or data practices
+            change. When an update is made, the revised version will be
+            published on this page. Check back from time to time for updates.
+          </p>
+
+          <h3>7. Contact</h3>
+          <p>
+            If you have a question about this policy, contact us at{" "}
+            <a href="mailto:hrtechnologies003@gmail.com" className="help-email">
+              hrtechnologies003@gmail.com
+            </a>
+            . Please do not include passwords, PINs, or other sensitive
+            information in your message.
           </p>
         </div>
 

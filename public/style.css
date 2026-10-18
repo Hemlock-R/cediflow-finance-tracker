@@ -1,7 +1,7 @@
+
 @import "tailwindcss";
 
-/*CEDIFLOW — overall design*/
-
+/* CediFlow's colors, corner sizes, and dashboard proportions. */
 :root {
   --bg-color: #0a0c10;
   --surface-color: rgba(22, 27, 34, 0.75);
@@ -12,7 +12,6 @@
   --radius-main: 12px;
   --radius-inner: 6px;
 
-  /*Metric dashboard Colors*/
   --color-asset: #238636;
   --color-income: #58a6ff;
   --color-expense: #d29922;
@@ -24,7 +23,6 @@
   --flex-assets: 1;
   --flex-liabilities: 1;
 }
-
 
 * {
   box-sizing: border-box;
@@ -42,27 +40,16 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   color: var(--text-primary);
   background-color: var(--bg-color);
   background-image:
-    radial-gradient(
-      circle at 15% 15%,
-      rgba(88, 166, 255, 0.12) 0%,
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 85% 85%,
-      rgba(35, 134, 54, 0.08) 0%,
-      transparent 40%
-    );
+    radial-gradient(circle at 15% 15%, rgba(88, 166, 255, 0.12) 0%, transparent 35%),
+    radial-gradient(circle at 85% 85%, rgba(35, 134, 54, 0.08) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
-
-  #root {
+#root {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -70,7 +57,6 @@ body {
   min-width: 0;
   min-height: 100vh;
 }
-
 
 h1,
 h2,
@@ -96,27 +82,19 @@ h3 {
   font-size: 1rem;
 }
 
-
-
-/*APP HEADER, LOGO AND FOOTER*/
-
-/* CEDIFLOW — CENTERED BRAND HEADER */
-
+/* Keep the brand header clear of the fixed navigation. */
 .app-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-
+  justify-content: center;
   width: calc(100% - 2rem);
   max-width: 1000px;
   margin: 100px auto 0;
   padding: 1.25rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
-
+  text-align: center;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -133,27 +111,18 @@ h3 {
 
 .app-logo {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-
   width: 54px;
   height: 54px;
-
   border: 1px solid rgba(88, 166, 255, 0.4);
   border-radius: 15px;
-
-  background: linear-gradient(
-    135deg,
-    rgba(88, 166, 255, 0.22),
-    rgba(35, 134, 54, 0.2)
-  );
-
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.22), rgba(35, 134, 54, 0.2));
   color: #ffffff;
   font-size: 1.1rem;
   font-weight: 900;
   letter-spacing: 0.5px;
-
   box-shadow: 0 5px 20px rgba(88, 166, 255, 0.15);
 }
 
@@ -168,12 +137,11 @@ h3 {
 .app-title {
   margin: 0;
   color: var(--color-income);
-  letter-spacing: 1px;
-  line-height: 1.2;
-  text-align: center;
   font-size: clamp(1.7rem, 4vw, 2.2rem);
   font-weight: 850;
   letter-spacing: 1.2px;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .app-tagline {
@@ -186,26 +154,20 @@ h3 {
   text-align: center;
 }
 
-
 .app-footer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.25rem;
-
   width: calc(100% - 2rem);
   max-width: 1000px;
   min-width: 0;
   margin: auto auto 2rem;
   padding: 1.25rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
-
   text-align: center;
-  box-sizing: border-box;
-
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -217,13 +179,12 @@ h3 {
   line-height: 1.5;
 }
 
-/*MAIN NAVIGATION*/
-
+/* Keep navigation available while users switch dashboard views. */
 .nav-logo {
   display: block;
+  flex-shrink: 0;
   width: 32px;
   height: 32px;
-  flex-shrink: 0;
   object-fit: contain;
 }
 
@@ -232,26 +193,21 @@ h3 {
   top: 15px;
   left: 50%;
   z-index: 1000;
-
   display: flex;
   align-items: center;
   gap: 0.35rem;
-
   width: calc(100% - 24px);
   max-width: 960px;
   padding: 0.4rem;
-
   overflow: visible;
   white-space: nowrap;
   transform: translateX(-50%);
-
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 30px;
   background: rgba(255, 255, 255, 0.03);
   box-shadow:
     0 4px 30px rgba(0, 0, 0, 0.4),
     inset 0 1px 1px rgba(255, 255, 255, 0.1);
-
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
 }
@@ -261,19 +217,15 @@ h3 {
   flex: 1 1 0;
   align-items: center;
   justify-content: center;
-
   min-width: 0;
   padding: 0.6rem 1.1rem;
-
   border: 1px solid transparent;
   border-radius: 20px;
   background: transparent;
   color: var(--text-secondary);
-
   font-size: 0.85rem;
   font-weight: 600;
   text-align: center;
-
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
@@ -294,25 +246,20 @@ h3 {
   text-shadow: 0 0 8px rgba(88, 166, 255, 0.6);
 }
 
-
 .menu-toggle {
   display: none;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-
   margin-left: auto;
   padding: 8px 12px;
-
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-input);
   color: var(--text-primary);
-
   font-size: 1.5rem;
   cursor: pointer;
 }
-
 
 .menu-overlay {
   position: fixed;
@@ -321,25 +268,20 @@ h3 {
   background: rgba(0, 0, 0, 0.5);
 }
 
-  .side-panel {
+.side-panel {
   position: fixed;
   top: 12px;
   right: 12px;
   z-index: 1000;
-
   width: min(300px, calc(100vw - 24px));
-  height: auto;
   height: 100vh;
   max-height: calc(100dvh - 24px);
   padding: 12px;
-
   overflow-y: auto;
-
   border-left: 1px solid var(--border-color);
   background: #161d29;
   color: #f0f6fc;
   box-shadow: -8px 0 25px rgba(0, 0, 0, 0.2);
-
   animation: sidePanelIn 0.25s ease-out;
 }
 
@@ -361,14 +303,12 @@ h3 {
 .side-panel-link {
   display: block;
   width: 100%;
-  margin-bottom:6px;
+  margin-bottom: 6px;
   padding: 5px 12px;
-
   border: 1px solid var(--border-color);
   border-radius: 8px;
   background: var(--bg-input);
   color: var(--text-primary);
-
   font-size: 0.9rem;
   line-height: 1.2;
   text-align: left;
@@ -385,25 +325,21 @@ h3 {
   }
 }
 
+/* The main card holds whichever dashboard view is active. */
 .dashboard {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
   flex-shrink: 0;
-
- width: calc(100% - 3rem);
-max-width: 1200px;
-margin-left: auto;
-margin-right: auto;
-min-width: 0;
-margin: 1rem auto 2rem;
+  gap: 1.25rem;
+  width: calc(100% - 3rem);
+  max-width: 1200px;
+  min-width: 0;
+  margin: 1rem auto 2rem;
   padding: 1.25rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
-
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
@@ -412,15 +348,11 @@ margin: 1rem auto 2rem;
   display: none;
   flex-direction: column;
   gap: 1.25rem;
-
   width: 100%;
   min-width: 0;
-
   opacity: 0;
   transform: translateY(10px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .view-panel.active {
@@ -457,18 +389,13 @@ input[type="date"],
 select {
   width: 100%;
   padding: 0.6rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   outline: none;
-
   background-color: var(--bg-input);
   color: var(--text-primary);
   font-size: 0.95rem;
-
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 input:focus,
@@ -480,9 +407,8 @@ select:focus {
 .classifier-grid {
   display: grid;
   grid-template-columns: 2fr 1fr auto;
-  gap: 0.75rem;
   align-items: flex-end;
-
+  gap: 0.75rem;
   padding: 0.85rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
@@ -492,9 +418,8 @@ select:focus {
 .action-container {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 0.75rem;
   align-items: flex-end;
-
+  gap: 0.75rem;
   padding: 0.85rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
@@ -505,19 +430,15 @@ select:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   height: 38px;
   padding: 0.6rem 1.2rem;
-
   border: none;
   border-radius: var(--radius-inner);
   background-color: var(--color-asset);
   color: #ffffff;
-
   font-size: 0.9rem;
   font-weight: bold;
   white-space: nowrap;
-
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -551,10 +472,8 @@ select:focus {
   padding: 0.2rem 0.4rem;
   border: 1px solid var(--color-liability);
   border-radius: 4px;
-
   background-color: transparent;
   color: var(--color-liability);
-
   font-size: 0.75rem;
   font-weight: bold;
   cursor: pointer;
@@ -565,6 +484,7 @@ select:focus {
   color: var(--color-income);
 }
 
+/* Charts and the balance sketch share two columns on wider screens. */
 .visualization-layout {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -582,10 +502,8 @@ select:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   min-height: 260px;
   padding: 1rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   background-color: var(--bg-input);
@@ -601,11 +519,9 @@ select:focus {
 .visual-bar-container {
   display: flex;
   overflow: hidden;
-
   width: 100%;
   height: 20px;
   margin-bottom: 1rem;
-
   border-radius: var(--radius-inner);
   background-color: var(--border-color);
 }
@@ -640,7 +556,6 @@ select:focus {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
-
   font-size: 0.75rem;
   font-weight: 600;
   text-align: center;
@@ -692,14 +607,11 @@ select:focus {
 .sketch-table-container {
   display: flex;
   flex-direction: column;
-
   width: 100%;
   min-width: 0;
   min-height: 260px;
   max-height: 400px;
-
   overflow: hidden;
-
   border: 2px solid var(--border-color);
   border-radius: var(--radius-inner);
   background-color: var(--bg-input);
@@ -719,11 +631,9 @@ select:focus {
 .sketch-split {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-
-  min-height: 70px;
   min-width: 0;
+  min-height: 70px;
   overflow: hidden;
-
   flex: var(--flex-split);
 }
 
@@ -732,19 +642,14 @@ select:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
+  flex: var(--flex-income);
   min-width: 0;
   min-height: 65px;
   padding: 0.6rem;
-
-  overflow: visible;
   overflow-wrap: anywhere;
-
   font-size: 0.85rem;
   font-weight: bold;
   text-align: center;
-
-  flex: var(--flex-income);
   transition: flex 0.65s ease;
 }
 
@@ -753,14 +658,10 @@ select:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
   min-width: 0;
   min-height: 70px;
   padding: 0.6rem;
-
-  overflow: visible;
   overflow-wrap: anywhere;
-
   font-size: 0.85rem;
   font-weight: bold;
   text-align: center;
@@ -768,16 +669,13 @@ select:focus {
 
 .sketch-val {
   display: block;
-
   max-width: 100%;
   min-width: 0;
   margin-top: 0.25rem;
-
   color: #ffffff;
   font-size: clamp(0.75rem, 1.5vw, 0.95rem);
   line-height: 1.4;
   text-align: center;
-
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
@@ -874,16 +772,12 @@ tr.editing-row {
   width: 100%;
   min-width: 90px;
   padding: 0.3rem 0.35rem;
-
   border: 1px solid var(--color-income);
   border-radius: var(--radius-inner);
   outline: none;
-
   background-color: var(--bg-input);
   color: var(--text-primary);
   font-size: 0.8rem;
-
-  box-sizing: border-box;
 }
 
 .inline-edit:focus {
@@ -898,24 +792,16 @@ tr.editing-row {
 .blueprint-section {
   width: 100%;
   padding: 1rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
-
-  background: linear-gradient(
-    135deg,
-    var(--surface-color),
-    rgba(13, 17, 23, 0.8)
-  );
+  background: linear-gradient(135deg, var(--surface-color), rgba(13, 17, 23, 0.8));
 }
 
 .blueprint-title {
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;
-
   border-bottom: 1px solid var(--border-color);
   color: var(--color-income);
-
   font-size: 1rem;
   font-weight: bold;
 }
@@ -923,13 +809,12 @@ tr.editing-row {
 .blueprint-item {
   margin-bottom: 0.75rem;
   padding-left: 0.75rem;
-
   border-left: 3px solid var(--color-income);
-
   font-size: 0.85rem;
   line-height: 1.5;
 }
 
+/* Settings cards use two columns until the screen gets narrower. */
 .admin-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -942,11 +827,9 @@ tr.editing-row {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-
   width: 100%;
   min-width: 0;
   padding: 1rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   background-color: var(--bg-input);
@@ -961,9 +844,7 @@ tr.editing-row {
 .vocab-list-wrapper {
   max-height: 140px;
   padding: 0.4rem;
-
   overflow-y: auto;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   background-color: rgba(0, 0, 0, 0.2);
@@ -972,14 +853,11 @@ tr.editing-row {
 .keyword-tag {
   display: inline-flex;
   align-items: center;
-
   margin: 2px;
   padding: 0.2rem 0.4rem;
-
   border: 1px solid var(--border-color);
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.05);
-
   font-size: 0.8rem;
 }
 
@@ -997,7 +875,6 @@ tr.editing-row {
   max-width: 300px;
   margin: 0 auto;
   padding: 1rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background: var(--bg-input);
@@ -1008,14 +885,11 @@ tr.editing-row {
   height: 50px;
   margin-bottom: 0.75rem;
   padding: 0.5rem;
-
   overflow: hidden;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
-
   font-size: 1.3rem;
   text-align: right;
   word-break: break-all;
@@ -1031,10 +905,8 @@ tr.editing-row {
   padding: 0.85rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
-
   background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
-
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
@@ -1074,10 +946,8 @@ tr.editing-row {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
   width: 100%;
   padding: 1rem;
-
   border: 1px solid var(--border-color);
   border-radius: var(--radius-inner);
   background-color: var(--bg-input);
@@ -1098,7 +968,6 @@ tr.editing-row {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
   margin: 0;
   padding-left: 1.2rem;
 }
@@ -1125,39 +994,30 @@ tr.editing-row {
   text-decoration: none;
 }
 
+/* Status messages sit at the bottom; confirmation prompts sit at the top. */
 .site-message {
   position: fixed;
   bottom: 24px;
   left: 50%;
   z-index: 9999;
-
   display: flex;
   align-items: center;
   gap: 10px;
-
   width: max-content;
   min-width: 0;
   max-width: min(520px, calc(100% - 32px));
   padding: 10px 14px;
-
   border: 1px solid rgba(255, 255, 255, 0.24);
   border-radius: 10px;
-
   background-color: #202938;
   color: #ffffff;
-
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
-
   font-size: 0.9rem;
   font-weight: 600;
-
   opacity: 0;
   transform: translate(-50%, 15px);
   pointer-events: none;
-
-  transition:
-    opacity 0.3s ease,
-    transform 0.2s ease;
+  transition: opacity 0.3s ease, transform 0.2s ease;
 }
 
 .site-message.show {
@@ -1187,11 +1047,9 @@ tr.editing-row {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-
   width: 30px;
   height: 30px;
   border-radius: 50%;
-
   font-size: 0.95rem;
   font-weight: 800;
 }
@@ -1234,25 +1092,18 @@ tr.editing-row {
   top: 24px;
   left: 50%;
   z-index: 10000;
-
   width: min(520px, calc(100% - 32px));
   padding: 18px 20px;
-
   border: 1px solid var(--border-color);
   border-top: 3px solid #d29922;
   border-radius: 10px;
-
   background-color: var(--surface-color);
   color: var(--text-primary);
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-
   opacity: 0;
   pointer-events: none;
   transform: translateX(-50%) translateY(-20px);
-
-  transition:
-    opacity 0.25s ease,
-    transform 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .site-confirm.show {
@@ -1272,14 +1123,11 @@ tr.editing-row {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-
   width: 34px;
   height: 34px;
   border-radius: 50%;
-
   background-color: rgba(210, 153, 34, 0.15);
   color: #d29922;
-
   font-size: 1rem;
   font-weight: 800;
 }
@@ -1311,10 +1159,8 @@ tr.editing-row {
 
 .site-confirm-actions button {
   padding: 8px 14px;
-
   border: 1px solid var(--border-color);
   border-radius: 7px;
-
   font: inherit;
   font-size: 0.8rem;
   font-weight: 600;
@@ -1337,20 +1183,110 @@ tr.editing-row {
 }
 
 
-@media (max-width: 640px) {
-  .site-message {
-  left: 50%;
-  bottom: 16px;
-  width: max-content;
-  min-width: 0;
-  max-width: calc(100% - 24px);
-  padding: 10px 12px;
-  transform: translate(-50%, 15px);
+/* Make footer actions look like clickable links. */
+.footer-links button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.65rem;
+
+  border: 1px solid rgba(88, 166, 255, 0.3);
+  border-radius: 6px;
+  background-color: rgba(88, 166, 255, 0.07);
+
+  color: var(--color-income);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
-.site-message.show {
-  transform: translate(-50%, 0);
+.footer-links button:hover {
+  border-color: var(--color-income);
+  background-color: rgba(88, 166, 255, 0.16);
+  color: #ffffff;
 }
+
+.footer-links button:focus-visible {
+  outline: 2px solid var(--color-income);
+  outline-offset: 3px;
+}
+
+
+/* Tablet layout: stack the charts and settings, and make room for the menu button. */
+@media (max-width: 1024px) {
+  .navigation-tabs {
+    top: 10px;
+    flex-wrap: nowrap;
+    gap: 3px;
+    width: calc(100% - 16px);
+    max-width: 960px;
+    padding: 6px;
+    overflow: visible;
+    white-space: normal;
+    border-radius: 16px;
+  }
+
+  .navigation-tabs .nav-tab {
+    display: inline-flex;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    padding: 0.55rem 0.2rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .navigation-tabs .desktop-extra-tab {
+    display: none !important;
+  }
+
+  .navigation-tabs .menu-toggle {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+
+  .visualization-layout,
+  .admin-grid,
+  .classifier-grid,
+  .action-container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .app-header {
+    width: calc(100% - 16px);
+    margin: 90px auto 0;
+    padding: 0.6rem 0.75rem;
+  }
+
+  .dashboard {
+    width: calc(100% - 16px);
+    max-width: none;
+    margin: 0.75rem auto 1rem;
+    padding: 0.5rem;
+    gap: 0.85rem;
+  }
+}
+
+/* Phone layout: keep the history table scrollable and show its scroll hint. */
+@media (max-width: 640px) {
+  .site-message {
+    bottom: 16px;
+    max-width: calc(100% - 24px);
+    padding: 10px 12px;
+  }
 
   .site-confirm {
     top: 15px;
@@ -1402,84 +1338,12 @@ tr.editing-row {
   }
 }
 
-
-
-@media (max-width: 1024px) {
-  .navigation-tabs {
-    top: 10px;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    gap: 3px;
-    width: calc(100% - 16px);
-    max-width: 960px;
-    padding: 6px;
-    overflow: visible;
-    white-space: normal;
-    border-radius: 16px;
-  }
-
-  .navigation-tabs .nav-tab {
-    display: inline-flex;
-    flex: 1 1 0;
-    min-width: 0;
-    width: auto;
-    padding: 0.55rem 0.2rem;
-    font-size: 0.7rem;
-    line-height: 1.2;
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-
-  .navigation-tabs .desktop-extra-tab {
-    display: none !important;
-  }
-
-  .navigation-tabs .menu-toggle {
-    display: inline-flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
-  }
-
-  .visualization-layout,
-  .admin-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .classifier-grid,
-  .action-container {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .app-header {
-  width: calc(100% - 16px);
-  margin: 90px auto 0;
-  padding: 0.6rem 0.75rem;
-}
-
-.dashboard {
-  width: calc(100% - 16px);
-  max-width: none;
-  min-width: 0;
-  margin: 0.75rem auto 1rem;
-  padding: 0.5rem;
-  gap: 0.85rem;
-}
-}
-
-
+/* Give navigation and dashboard content more space on larger monitors. */
 @media (min-width: 1280px) {
   .navigation-tabs {
     max-width: 1100px;
   }
 }
-
-
-/* =========================================
-   VERY LARGE SCREENS — IMPROVED READABILITY
-========================================= */
 
 @media (min-width: 1440px) {
   .app-header,
@@ -1498,8 +1362,8 @@ tr.editing-row {
   }
 
   .dashboard h1 {
-  font-size: 1.2rem;
-}
+    font-size: 1.2rem;
+  }
 
   .dashboard h2 {
     font-size: 1.5rem;
@@ -1573,42 +1437,7 @@ tr.editing-row {
   }
 }
 
-/* FOOTER LINKS */
-.footer-links {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-  margin-top: 0.65rem;
-}
-
-.footer-links button {
-  padding: 0.25rem;
-  border: 0;
-  background: transparent;
-  color: var(--text-secondary);
-  font: inherit;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.footer-links button:hover {
-  color: var(--color-income);
-  text-decoration: underline;
-}
-
-.side-panel-link {
-  width: 100%;
-  text-align: left;
-  cursor: pointer;
-}
-
-
-
-
-/* MOBILE — METRICS DASHBOARD WIDTH FIX */
+/* Very narrow phones need a little more room around the dashboard card. */
 @media (max-width: 600px) {
   .dashboard {
     width: calc(100% - 12px);

@@ -81,7 +81,8 @@ h4 {
 }
 
 h1 {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -98,75 +99,115 @@ h3 {
 
 
 /*APP HEADER, LOGO AND FOOTER*/
+
+/* CEDIFLOW — CENTERED BRAND HEADER */
+
 .app-header {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  width: calc(100% - 2rem);
   max-width: 1000px;
-  margin: 70px auto 0;
-  padding: 0.75rem 1.25rem;
+  margin: 100px auto 0;
+  padding: 1.25rem;
+
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
+
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 
 .app-header-inner {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.75rem;
-  
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .app-logo {
   display: inline-flex;
-  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: var(--surface-color);
+  flex-shrink: 0;
+
+  width: 54px;
+  height: 54px;
+
+  border: 1px solid rgba(88, 166, 255, 0.4);
+  border-radius: 15px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(88, 166, 255, 0.22),
+    rgba(35, 134, 54, 0.2)
+  );
+
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 900;
-  box-shadow: 0 4px 14px rgba(10, 10, 10, 0.3);
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 5px 20px rgba(88, 166, 255, 0.15);
 }
 
 .app-title-block {
   display: flex;
   flex-direction: column;
-  gap: 0.1rem;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
 }
 
 .app-title {
   margin: 0;
   color: var(--color-income);
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  line-height: 1.2;
+  text-align: center;
+  font-size: clamp(1.7rem, 4vw, 2.2rem);
+  font-weight: 850;
+  letter-spacing: 1.2px;
 }
 
 .app-tagline {
+  max-width: 100%;
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
 }
 
+
 .app-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 1.25rem;
-  width: 100%;
+
+  width: calc(100% - 2rem);
   max-width: 1000px;
   min-width: 0;
-  margin: 1rem 0.5rem 2rem;
+  margin: auto auto 2rem;
   padding: 1.25rem;
+
   border: 1px solid var(--border-color);
   border-radius: var(--radius-main);
   background-color: var(--surface-color);
+
   text-align: center;
+  box-sizing: border-box;
+
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  margin-top: auto;
 }
 
 .app-footer p {
@@ -177,6 +218,14 @@ h3 {
 }
 
 /*MAIN NAVIGATION*/
+
+.nav-logo {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
 
 .navigation-tabs {
   position: fixed;
@@ -1406,7 +1455,7 @@ tr.editing-row {
 
   .app-header {
   width: calc(100% - 16px);
-  margin-top: 65px;
+  margin: 90px auto 0;
   padding: 0.6rem 0.75rem;
 }
 
@@ -1449,8 +1498,8 @@ tr.editing-row {
   }
 
   .dashboard h1 {
-    font-size: 2rem;
-  }
+  font-size: 1.2rem;
+}
 
   .dashboard h2 {
     font-size: 1.5rem;
@@ -1557,13 +1606,7 @@ tr.editing-row {
 }
 
 
-#privacyView,
-#feedbackView {
-  width: calc(100% - 2rem);
-  max-width: 1000px;
-  box-sizing: border-box;
-  margin: 1rem auto 0;
-}
+
 
 /* MOBILE — METRICS DASHBOARD WIDTH FIX */
 @media (max-width: 600px) {
@@ -1571,21 +1614,5 @@ tr.editing-row {
     width: calc(100% - 12px);
     padding: 0.4rem;
     gap: 0.75rem;
-  }
-
-  #dashboardView {
-    gap: 0.75rem;
-  }
-
-  #dashboardView .inputs-grid,
-  #dashboardView .visualization-layout,
-  #dashboardView .results-section {
-    width: 100%;
-    gap: 0.5rem;
-  }
-
-  #dashboardView .history-section,
-  #dashboardView .blueprint-section {
-    padding: 0.5rem;
   }
 }

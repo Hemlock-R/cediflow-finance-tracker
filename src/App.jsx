@@ -18,7 +18,11 @@ function App() {
       </header>
 
       <div className="navigation-tabs">
-        <span className="app-logo">CF</span>
+        <img
+          src="/cediflow-logo.png"
+          alt="CediFlow logo"
+          className="nav-logo"
+        />
 
         <button
           className="nav-tab active"
@@ -931,142 +935,143 @@ function App() {
             </p>
           </div>
         </div>
-      </div>
 
-      <div id="privacyView" className="view-panel">
-        <h2>Privacy Policy</h2>
-        <p>
-          <strong>Last updated:</strong> October 14, 2026
-        </p>
-
-        <p>
-          CediFlow respects your privacy. This policy explains what information
-          you enter, how it is stored, and how you can manage it.
-        </p>
-
-        <h3>1. Information We Collect</h3>
-        <p>
-          CediFlow allows you to enter financial records, savings goals,
-          transaction history, and preferences. This information is used to
-          provide financial tracking and budgeting features.
-        </p>
-        <p>
-          All records and preferences are stored in your browser's local
-          storage. This means the information stays on your device and remains
-          available after you close the app.
-        </p>
-        <p>
-          When you visit the website, hosting providers and browser services may
-          process standard technical information such as device type and browser
-          version.
-        </p>
-        <p>
-          If you contact us by email at hrtechnologies003@gmail.com, the
-          information you include in your message will be sent through your
-          email provider.
-        </p>
-        <p>
-          <strong>
-            Please do not enter bank login details, Mobile Money PINs,
-            passwords, or Ghana Card numbers into CediFlow.
-          </strong>
-        </p>
-
-        <h3>2. How We Use Your Information</h3>
-        <p>
-          Your information is used only to support CediFlow's core features,
-          including tracking your finances and saving your preferences.
-        </p>
-        <p>
-          Information in local storage does not automatically transfer to the
-          app owner. It remains on your device until you delete it.
-        </p>
-        <p>
-          Technical information related to website hosting and browser services
-          is processed separately to keep the website functional.
-        </p>
-
-        <h3>3. Your Rights and Choices</h3>
-        <h4>Access and Backup</h4>
-        <p>
-          You can use the export feature inside CediFlow to create a backup of
-          your records. Store any exported files in a secure location.
-        </p>
-
-        <h4>Deletion</h4>
-        <p>
-          You can delete your information at any time using the reset controls
-          in CediFlow or by clearing your browser's site data. Please note that
-          clearing browser data will remove your saved records and preferences.
-        </p>
-        <p>
-          Exported backup files are stored separately. You will need to delete
-          them manually.
-        </p>
-
-        <h4>Security</h4>
-        <p>
-          Protecting your information also depends on your device and browser
-          security. Keep your device locked and avoid sharing access with
-          others.
-        </p>
-
-        <h4>Contact</h4>
-        <p>
-          For privacy questions or feedback, contact us at
-          hrtechnologies003@gmail.com. Do not include sensitive information such
-          as passwords or bank details in your email.
-        </p>
-
-        <h3>4. Storage Information</h3>
-        <p>
-          Records stored in local storage may not be available if you switch to
-          a different browser or device. Clearing browser data may also remove
-          your records. Keep a backup if you need to preserve important
-          information.
-        </p>
-
-        <h3>5. Changes to This Policy</h3>
-        <p>
-          We may update this policy when CediFlow features or data practices
-          change. Any changes will be published on this page. Please review this
-          page periodically.
-        </p>
-      </div>
-
-      <div id="feedbackView" className="view-panel">
-        <h2>Feedback</h2>
-
-        <div className="help-card">
-          <h3>Help Us Improve CediFlow</h3>
+        <div id="privacyView" className="view-panel">
+          <h2>Privacy Policy</h2>
+          <p>
+            <strong>Last updated:</strong> October 14, 2026
+          </p>
 
           <p>
-            We are building CediFlow for you. Have a suggestion, found a bug, or
-            have a feature you want us to add?
+            CediFlow respects your privacy. This policy explains what
+            information you enter, how it is stored, and how you can manage it.
           </p>
 
-          <p>We would love to hear from you. It takes less than 1 minute.</p>
-
-          <button
-            type="button"
-            className="btn-save"
-            data-tally-open="bZV6p7"
-            data-tally-layout="modal"
-            data-tally-width="700"
-            data-tally-overlay="1"
-            data-tally-emoji-text="👋"
-            data-tally-emoji-animation="wave"
-            data-tally-auto-close="2000"
-            data-tally-form-events-forwarding="1"
-            data-tally-hide-title="1"
-          >
-            Share Feedback
-          </button>
-
-          <p style={{ fontSize: "13px", marginTop: "12px", opacity: "0.7" }}>
-            Note: This form will never ask for your password or PIN. Please keep
-            sensitive information private.
+          <h3>1. Information We Collect</h3>
+          <p>
+            CediFlow allows you to enter financial records, savings goals,
+            transaction history, and preferences. This information is used to
+            provide financial tracking and budgeting features.
           </p>
+          <p>
+            All records and preferences are stored in your browser's local
+            storage. This means the information stays on your device and remains
+            available after you close the app.
+          </p>
+          <p>
+            When you visit the website, hosting providers and browser services
+            may process standard technical information such as device type and
+            browser version.
+          </p>
+          <p>
+            If you contact us by email at hrtechnologies003@gmail.com, the
+            information you include in your message will be sent through your
+            email provider.
+          </p>
+          <p>
+            <strong>
+              Please do not enter bank login details, Mobile Money PINs,
+              passwords, or Ghana Card numbers into CediFlow.
+            </strong>
+          </p>
+
+          <h3>2. How We Use Your Information</h3>
+          <p>
+            Your information is used only to support CediFlow's core features,
+            including tracking your finances and saving your preferences.
+          </p>
+          <p>
+            Information in local storage does not automatically transfer to the
+            app owner. It remains on your device until you delete it.
+          </p>
+          <p>
+            Technical information related to website hosting and browser
+            services is processed separately to keep the website functional.
+          </p>
+
+          <h3>3. Your Rights and Choices</h3>
+          <h4>Access and Backup</h4>
+          <p>
+            You can use the export feature inside CediFlow to create a backup of
+            your records. Store any exported files in a secure location.
+          </p>
+
+          <h4>Deletion</h4>
+          <p>
+            You can delete your information at any time using the reset controls
+            in CediFlow or by clearing your browser's site data. Please note
+            that clearing browser data will remove your saved records and
+            preferences.
+          </p>
+          <p>
+            Exported backup files are stored separately. You will need to delete
+            them manually.
+          </p>
+
+          <h4>Security</h4>
+          <p>
+            Protecting your information also depends on your device and browser
+            security. Keep your device locked and avoid sharing access with
+            others.
+          </p>
+
+          <h4>Contact</h4>
+          <p>
+            For privacy questions or feedback, contact us at
+            hrtechnologies003@gmail.com. Do not include sensitive information
+            such as passwords or bank details in your email.
+          </p>
+
+          <h3>4. Storage Information</h3>
+          <p>
+            Records stored in local storage may not be available if you switch
+            to a different browser or device. Clearing browser data may also
+            remove your records. Keep a backup if you need to preserve important
+            information.
+          </p>
+
+          <h3>5. Changes to This Policy</h3>
+          <p>
+            We may update this policy when CediFlow features or data practices
+            change. Any changes will be published on this page. Please review
+            this page periodically.
+          </p>
+        </div>
+
+        <div id="feedbackView" className="view-panel">
+          <h2>Feedback</h2>
+
+          <div className="help-card">
+            <h3>Help Us Improve CediFlow</h3>
+
+            <p>
+              We are building CediFlow for you. Have a suggestion, found a bug,
+              or have a feature you want us to add?
+            </p>
+
+            <p>We would love to hear from you. It takes less than 1 minute.</p>
+
+            <button
+              type="button"
+              className="btn-save"
+              data-tally-open="bZV6p7"
+              data-tally-layout="modal"
+              data-tally-width="700"
+              data-tally-overlay="1"
+              data-tally-emoji-text="👋"
+              data-tally-emoji-animation="wave"
+              data-tally-auto-close="2000"
+              data-tally-form-events-forwarding="1"
+              data-tally-hide-title="1"
+            >
+              Share Feedback
+            </button>
+
+            <p style={{ fontSize: "13px", marginTop: "12px", opacity: "0.7" }}>
+              Note: This form will never ask for your password or PIN. Please
+              keep sensitive information private.
+            </p>
+          </div>
         </div>
       </div>
 

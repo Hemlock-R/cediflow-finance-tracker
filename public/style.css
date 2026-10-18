@@ -261,28 +261,70 @@ h3 {
   cursor: pointer;
 }
 
+/* Soft backdrop behind the mobile side panel. */
 .menu-overlay {
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: overlayFadeIn 0.28s ease both;
 }
 
+/* Floating glass panel with a smoother entrance and exit. */
+/* Floating glass panel with a smooth entrance. */
 .side-panel {
   position: fixed;
   top: 12px;
   right: 12px;
   z-index: 1000;
+
   width: min(300px, calc(100vw - 24px));
-  height: 100vh;
-  max-height: calc(100dvh - 24px);
-  padding: 12px;
+  height: calc(100vh - 24px);
+  height: calc(100dvh - 24px);
+  padding: 16px;
+
+  overflow-x: hidden;
   overflow-y: auto;
-  border-left: 1px solid var(--border-color);
-  background: #161d29;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(22, 29, 41, 0.88);
   color: #f0f6fc;
-  box-shadow: -8px 0 25px rgba(0, 0, 0, 0.2);
-  animation: sidePanelIn 0.25s ease-out;
+
+  box-shadow:
+    -12px 0 35px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+
+  animation: sidePanelIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes sidePanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 24px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes sidePanelIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + 24px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .side-panel-header {
@@ -294,34 +336,70 @@ h3 {
 
 .side-panel-close {
   border: none;
+  border-radius: 8px;
   background: transparent;
   color: var(--text-primary);
   font-size: 1.8rem;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.side-panel-close:hover {
+  background-color: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
 }
 
 .side-panel-link {
   display: block;
   width: 100%;
   margin-bottom: 6px;
-  padding: 5px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-input);
+  padding: 9px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 10px;
+
+  background: rgba(1, 4, 9, 0.22);
   color: var(--text-primary);
+
   font-size: 0.9rem;
-  line-height: 1.2;
+  line-height: 1.35;
   text-align: left;
   cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
-@keyframes sidePanelIn {
+.side-panel-link:hover {
+  border-color: rgba(88, 166, 255, 0.22);
+  background-color: rgba(88, 166, 255, 0.09);
+  color: #ffffff;
+}
+
+@keyframes overlayFadeIn {
   from {
-    transform: translateX(100%);
+    opacity: 0;
   }
 
   to {
-    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .side-panel,
+  .side-panel.open,
+  .menu-overlay,
+  .side-panel-link,
+  .side-panel-close {
+    animation: none;
+    transition: none;
   }
 }
 
@@ -1027,9 +1105,10 @@ tr.editing-row {
 }
 
 .site-message.success {
-  border: 1px solid rgba(46, 160, 67, 0.7);
-  border-left: 4px solid #3fb950;
-  background-color: #5f11c5;
+  border: 1px solid rgba(63, 185, 80, 0.7);
+  border-right: 3px solid #3fb950;
+  border-left: 3px solid #3fb950;
+  background-color: #183b29;
 }
 
 .site-message.error {
@@ -1073,8 +1152,8 @@ tr.editing-row {
 }
 
 .site-message.success .site-message-icon {
-  background-color: rgba(46, 160, 67, 0.15);
-  color: var(--color-income);
+  background-color: rgba(63, 185, 80, 0.22);
+  color: #3fb950;
 }
 
 .site-message.error .site-message-icon {

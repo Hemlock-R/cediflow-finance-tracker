@@ -280,7 +280,7 @@ h3 {
 
   width: min(300px, calc(100vw - 24px));
   height: auto;
-  height: 80vh;
+  height: 100vh;
   max-height: calc(100dvh - 24px);
   padding: 12px;
 

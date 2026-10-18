@@ -1050,12 +1050,15 @@ function App() {
           <button
             type="button"
             className="btn-save"
-            data-tally-open="44Wq4d"
-            data-tally-width="300"
+            data-tally-open="bZV6p7"
+            data-tally-layout="modal"
+            data-tally-width="700"
+            data-tally-overlay="1"
             data-tally-emoji-text="👋"
             data-tally-emoji-animation="wave"
             data-tally-auto-close="2000"
             data-tally-form-events-forwarding="1"
+            data-tally-hide-title="1"
           >
             Share Feedback
           </button>
